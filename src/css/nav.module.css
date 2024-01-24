@@ -1,0 +1,25 @@
+.navbar {
+  background-color: #f1f6f9;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav_container {
+  width: 100%;
+  display: flex;
+  justify-content: left !important;
+  align-items: center;
+}
+
+.logo {
+  width: 25%;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.nav_content > * {
+  padding-right: 5%;
+  margin-right: 4rem;
+}

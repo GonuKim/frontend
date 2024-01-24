@@ -1,0 +1,14 @@
+.top_wrap {
+  width: 100%;
+  height: 500px;
+  text-align: center;
+}
+
+.top_wrap h3 {
+  padding-top: 3%;
+  color: white;
+  font-weight: bold;
+}
+
+.nav_wrap {
+}
