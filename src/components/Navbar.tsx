@@ -16,8 +16,8 @@ const MainNavbar = () => {
           <Nav.Link href="#game">Game</Nav.Link>
           <Nav.Link href="#Commmunity">Commmunity</Nav.Link>
           <Nav.Link href="#Exam">Exam</Nav.Link>
-          <Nav.Link href="#Sing In">Sing In</Nav.Link>
-          <Nav.Link href="#Sing Up">Sing Up</Nav.Link>
+          <Nav.Link href="#Sing In">Sign In</Nav.Link>
+          <Nav.Link href="#Sing Up">Sign Up</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
