@@ -1,0 +1,96 @@
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: #ffff;
+  
+  }
+  .wrap{
+    height: auto;
+    
+  }
+
+
+  .textLogin{
+    transform: translate(40%, 35%);
+    vertical-align: top;
+    margin-top: 0px; 
+    line-height: 3;
+    font-size: 50px;
+    font-weight: bold;
+
+  }
+
+
+  .textContainer {
+      transform: translate(-10%, 5%);
+      height: auto;
+      flex-direction: column; 
+      align-items: center ; 
+      justify-content: space-between;
+      padding: 10px;
+      margin: 10 auto;
+      margin-left: 20%;
+     
+    }
+    
+  
+
+  
+    .h2 {
+      vertical-align: top;
+      margin-top: 0px; 
+      line-height: 3;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    .main_wrap{
+      /* align-items: center ; 
+      display: flex;
+      width: 60%;
+      height: 60%; */
+      position: absolute; /* 절대 위치 지정 */
+      top: 50%; /* 위에서 50% 지점에 위치 */
+      left: 50%; /* 왼쪽에서 50% 지점에 위치 */
+      transform: translate(-50%, -50%); /* 중심으로 이동 */
+      width: 70%; /* 원하는 너비 설정 */
+      max-width: 700px; /* 최대 너비 설정 */
+      height: auto; /* 높이 자동 조절 */
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #ffff;
+  
+    }
+  
+   
+  
+  
+    .input {
+      width: 500px;
+      padding: 16px;
+      border-radius: 12px; 
+      border: 2px solid #ababab;
+      margin-top: -20px;
+      box-sizing: border-box;
+      
+    }
+  
+    .circle{
+    width: auto;
+    transform: translate(-3%, -20%);
+    padding: 12px; 
+    margin-left: 500px;
+    font-weight: bold;
+    border-radius: 10px; 
+    background-color: #4A77CB;
+    color: white; 
+    border: solid #4A77CB;; 
+    font-size: 20px;
+    cursor: pointer; 
+    outline: none; 
+    margin-top: 60px;
+    text-shadow: 1px 2px 0px #000000;
+    
+  }
+    
+  
