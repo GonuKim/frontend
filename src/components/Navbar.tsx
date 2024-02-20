@@ -13,11 +13,11 @@ const MainNavbar = () => {
           <img src={logo} alt="" />
         </Navbar.Brand>
         <Nav className={`${styles.nav_content} m-2`}>
-          <Nav.Link href="#game">Game</Nav.Link>
-          <Nav.Link href="#Commmunity">Commmunity</Nav.Link>
-          <Nav.Link href="#Exam">Exam</Nav.Link>
-          <Nav.Link href="#Sing In">Sign In</Nav.Link>
-          <Nav.Link href="#Sing Up">Sign Up</Nav.Link>
+          <Nav.Link href="/game">Game</Nav.Link>
+          <Nav.Link href="/Commmunity">Commmunity</Nav.Link>
+          <Nav.Link href="/Exam">Exam</Nav.Link>
+          <Nav.Link href="/SignIn">Sign In</Nav.Link>
+          <Nav.Link href="/SignUp">Sign Up</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
