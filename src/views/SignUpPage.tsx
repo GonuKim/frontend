@@ -24,14 +24,15 @@ const SignUp = () => {
   }, [datePickerRef]);
 
   return (
-  <div className={styles.wrap}>
-    <Navbar />
+    <div className={styles.all_warp}>
+ <Navbar />
+
+ <div className={styles.wrap}>
+   
   
     <div className={styles.main_wrap}>
      
-      <div className={styles.textSign}>
-          <h1>회원가입</h1>
-      </div>
+    
 
       <div className={styles.textContainer}>
         
@@ -81,20 +82,15 @@ const SignUp = () => {
         <div>
         <input type="nickname" className={styles.input} placeholder="휴대전화" />
         </div>  
-      </div>
-
-      
-      
-      <div>
+        <div>
         <button className={styles.circle}>가입하기</button>
       </div>
+      </div>
+
 
     </div>
   </div>
-  
-
-  
-  
+    </div>
 );
 };
 export default SignUp;
