@@ -11,9 +11,7 @@ const SignIn = () => {
     
       <div className={styles.main_wrap}>
     
-        <div className={styles.textLogin}>
-            <h1>로그인</h1>
-        </div>
+ 
 
         <div className={styles.textContainer}>
   
@@ -34,6 +32,11 @@ const SignIn = () => {
             <input type="password" className={styles.input} placeholder="비밀번호" />
         </div>
   
+
+
+
+
+
       </div>
   
         <div>
