@@ -9,7 +9,7 @@ const MainNavbar = () => {
   return (
     <Navbar className={styles.navbar} data-bs-theme="white">
       <Container className={styles.nav_container}>
-        <Navbar.Brand className={styles.logo} href="#home">
+        <Navbar.Brand className={styles.logo} href="/">
           <img src={logo} alt="" />
         </Navbar.Brand>
         <Nav className={`${styles.nav_content} m-2`}>
