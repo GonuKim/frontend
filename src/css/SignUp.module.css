@@ -55,16 +55,19 @@
  
 
 
-  .input {
+  .inputForm {
+    color: black;
+    font-size:2rem ;
     width: 500px;
     padding: 16px;
     border-radius: 12px; 
     border: 2px solid #ababab;
     margin-top: -20px;
     box-sizing: border-box;
-    
+    background: white;
   }
 
+  
   .circle{
   margin-left: 20rem;
   margin-top: 3rem;
