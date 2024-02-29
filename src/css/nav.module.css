@@ -1,25 +1,24 @@
-.navbar {
-  background-color: #f1f6f9;
-  font-size: 2.5rem;
-  font-weight: bold;
+.logo img {
+  width: 80%;
 }
 
-.nav_container {
+.navbar {
+  font-size: 3rem;
+  display: felx;
+  justify-content: left !important;
+  width: 100%;
+}
+
+.nav_content {
   width: 100%;
   display: flex;
-  justify-content: left !important;
-  align-items: center;
-}
-
-.logo {
-  width: 25%;
-}
-
-.logo img {
-  width: 100%;
+  justify-content: flex-start !important;
 }
 
 .nav_content > * {
-  padding-right: 5%;
-  margin-right: 8rem;
+  margin-right: 5rem;
+}
+
+.dropdown_item {
+  font-size: 1.5rem;
 }

@@ -8,10 +8,12 @@ import Main from "./views/MainPage";
 import SignUp from "./views/SignUpPage";
 import SignIn from "./views/SignInPage";
 import GamePage from "./views/GamePage";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate replace to="/main" />} />
         <Route path="/main" element={<Main />} />
