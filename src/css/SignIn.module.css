@@ -67,6 +67,7 @@ body {
   
   
     .input {
+      font-size:2rem ;
       color: black;
       width: 500px;
       padding: 16px;
@@ -77,6 +78,11 @@ body {
       background-color: white;
       
     }
+
+
+
+ 
+
   
     .circle{
     width: auto;
@@ -95,5 +101,30 @@ body {
     text-shadow: 1px 2px 0px #000000;
     
   }
-    
+
+  .socialLoginContainer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+   margin-bottom: 0.5rem; /* 아래쪽 마진 제거 */
+  }
   
+  .socialIcon {
+    position: relative;
+    left: -10px; /* 왼쪽으로 10px 이동 */
+    margin: 1px;  /* 각 아이템 사이의 외부 간격을 조절합니다 */
+    padding: 1px; /* 각 아이템의 내부 간격을 조절합니다 */
+    width: 280px; 
+    height: auto;  
+    object-fit: contain;  
+    justify-content: center;
+  }
+    
+
+ .social_link a{
+  display: flex;
+  align-items: center; 
+  flex-direction: column; 
+  margin-bottom: 0.5rem; /* 아래쪽 마진 제거 */
+  
+}
