@@ -8,7 +8,7 @@ import Main from "./views/MainPage";
 import SignUp from "./views/SignUpPage";
 import SignIn from "./views/SignInPage";
 import GamePage from "./views/GamePage";
-
+import TypingPage from "./views/TypingPage"
 import SocialCallback from "./views/CallBack";
 
 
@@ -29,7 +29,8 @@ function App() {
         <Route path="/social/callback/github" element={<SocialCallback provider="github" />}></Route>
 
         <Route path="/Game" element={<GamePage />} />
-       
+        <Route path="/Typing" element={<TypingPage />} />
+
       </Routes>
     </Router>
   );

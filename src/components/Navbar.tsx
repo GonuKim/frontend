@@ -66,9 +66,10 @@ const MainNavbar = () => {
             >
               단어 뒤집기
             </NavDropdown.Item>
+            
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.3"
+              href="/Typing"
             >
               일어 타자 연습
             </NavDropdown.Item>
