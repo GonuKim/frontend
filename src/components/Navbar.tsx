@@ -33,6 +33,7 @@ const MainNavbar: React.FC = () => {
               },
             }
           );
+
           sessionStorage.removeItem("accessToken");
           sessionStorage.removeItem("refreshToken");
 
