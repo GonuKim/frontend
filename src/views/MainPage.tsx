@@ -1,4 +1,3 @@
-import MainNavbar from "../components/Navbar";
 import styles from "../css/Main.module.css";
 import Carousel from "../components/crarousel/index";
 import Img1 from "../img/exam.jpg";
@@ -8,10 +7,6 @@ import Img4 from "../img/crossword.jpg";
 const Main = () => {
   return (
     <div>
-      <div className={styles.nav_wrap}>
-        <MainNavbar />
-      </div>
-
       <div className={styles.carousel_wrap}>
         <h3 className={styles.top_text}>
           다양한 활동을 통하여 일본어를 늘려보세요!
