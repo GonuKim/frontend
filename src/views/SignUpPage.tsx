@@ -14,7 +14,6 @@ const SignUp = () => {
   
   const [formData, setFormData] = useState({
     nickname: "",
-    name: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -105,16 +104,6 @@ const SignUp = () => {
           />
         </div>
 
-        <h2 className={styles.h2}>
-          아이디
-        </h2>
-        <div>
-        <input type="name" className={styles.inputForm} placeholder="이메일" 
-          name="name"
-          value={formData.name} 
-          onChange={handleInputChange}
-          />
-        </div>
 
         <h2 className={styles.h2}>
           비밀번호
