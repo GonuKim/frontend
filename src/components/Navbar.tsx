@@ -5,6 +5,46 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "../img/tamago.png";
 import styles from "../css/nav.module.css";
+import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
+const MainNavbar: React.FC = () => {
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
+  const api = axios.create({
+    baseURL: "http://localhost:8000/",
+    withXSRFToken: true,
+    withCredentials: true,
+  });
+
+  const handleLogout = async () => {
+    const confirmed = window.confirm("로그아웃 하시겠습니까?");
+
+    if (confirmed) {
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      if (accessToken) {
+        try {
+          await api.post(
+            "/api/logout",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          sessionStorage.removeItem("accessToken");
+          sessionStorage.removeItem("refreshToken");
+
+          setIsLoggedIn(false);
+        } catch (error) {
+          console.error("Logout error", error);
+          // 에러 처리 로직
+        }
+      }
+    }
+  };
 
 const MainNavbar = () => {
   return (
