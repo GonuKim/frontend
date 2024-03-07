@@ -13,6 +13,7 @@ import SocialCallback from "./views/CallBack";
 
 
 import Navbar from "./components/Navbar";
+import CreateWordPage from "./views/CreateWordPage";
 
 function App() {
   return (
@@ -31,8 +32,15 @@ function App() {
         <Route path="/Game" element={<GamePage />} />
         <Route path="/Typing" element={<TypingPage />} />
 
+ develop
       </Routes>
     </Router>
+          <Route path="/Game" element={<GamePage />} />
+          <Route path="/CreateWord" element={<CreateWordPage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+    develop
   );
 }
 
