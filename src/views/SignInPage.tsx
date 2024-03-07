@@ -97,6 +97,7 @@ const SignIn = () => {
           <div className={styles.h2}>
             <img src={logo} alt="" />
           </div>
+          
           <h2 className={styles.h2}>아이디</h2>
           <div>
             <input
@@ -108,6 +109,7 @@ const SignIn = () => {
               onChange={handleInputChange}
             />
           </div>
+
           <h2 className={styles.h2}>비밀번호</h2>
           <div>
             <input
@@ -120,6 +122,7 @@ const SignIn = () => {
             />
           </div>
         </div>
+        
         <div>
           <button className={styles.circle} onClick={handleSubmit}>
             로그인

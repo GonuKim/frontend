@@ -1,0 +1,41 @@
+.pageContainer {
+  display: flex;
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center;
+  background-color: #212A3E;
+  width: 100vw; 
+  height: 100vh; 
+  
+}
+
+.main_wrap{
+  display: flex;
+  align-items: center;
+  width: 60%; /* 너비 설정 */
+  height: 50%; /* 높이 설정 */
+  background-color: transparent; /* 배경 색상 투명으로 설정 */
+  border: 2px solid #000000; /* 테두리 설정 */
+  border-radius: 20px; /* 둥근 모서리 설정 */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* 그림자 효과 설정 */
+}
+
+.row {
+  display: flex;
+}
+
+.key {
+  padding: 10px;
+  margin: 5px;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.keyPressed {
+  background-color: #6A8ED1; /* Pressed key color */
+}
+
+
+
+
