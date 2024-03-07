@@ -11,6 +11,7 @@ import SignIn from "./views/SignInPage";
 import GamePage from "./views/GamePage";
 import SocialCallback from "./views/CallBack";
 import Navbar from "./components/Navbar";
+import CreateWordPage from "./views/CreateWordPage";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           ></Route>
 
           <Route path="/Game" element={<GamePage />} />
+          <Route path="/CreateWord" element={<CreateWordPage />} />
         </Routes>
       </Router>
     </AuthProvider>
