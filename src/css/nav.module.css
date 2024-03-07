@@ -5,14 +5,15 @@
 .navbar {
   font-size: 3rem;
   display: felx;
-  justify-content: left !important;
+  justify-content: center !important;
+  align-items: center;
   width: 100%;
 }
 
 .nav_content {
   width: 100%;
   display: flex;
-  justify-content: flex-start !important;
+  justify-content: center !important;
 }
 
 .nav_content > * {
@@ -21,4 +22,7 @@
 
 .dropdown_item {
   font-size: 1.5rem;
+}
+
+.logout_link {
 }

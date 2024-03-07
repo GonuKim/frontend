@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/CreateWordPage.module.css";
 import { FaCirclePlus } from "react-icons/fa6";
-
+import Modal from "../components/Modal";
 interface WordsState {
   kanji: string[];
   meaning: string[];
@@ -44,6 +44,14 @@ const CreateWord: React.FC = () => {
     return number.toString().padStart(3, "0");
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태를 관리하는 상태 변수
+
+  // 모달을 여는 함수
+  const openModal = () => setIsModalOpen(true);
+
+  // 모달을 닫는 함수
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className={styles.main_wrap}>
       <div className={styles.set_name_wrap}>
@@ -55,8 +63,10 @@ const CreateWord: React.FC = () => {
           />
         </div>
         <div className={styles.external_res_wrap}>
-          <h4 className={styles.external_excel}>EXCEL로 단어 입력</h4>
-          <h4>OCR로 단어 입력</h4>
+          <h4 className={styles.external_excel} onClick={openModal}>
+            EXCEL로 단어 입력
+          </h4>
+          <h4 onClick={openModal}>OCR로 단어 입력</h4>
         </div>
       </div>
 
@@ -99,6 +109,7 @@ const CreateWord: React.FC = () => {
           <button className={styles.save_btn}>세트 저장하기</button>
         </div>
       </div>
+      {isModalOpen && <Modal closeModal={closeModal} />}
     </div>
   );
 };

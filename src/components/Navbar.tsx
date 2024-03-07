@@ -46,7 +46,6 @@ const MainNavbar: React.FC = () => {
     }
   };
 
-const MainNavbar = () => {
   return (
     <Navbar className={styles.navbar} data-bs-theme="white">
       <Container className={styles.nav_container}>
@@ -106,17 +105,24 @@ const MainNavbar = () => {
             >
               단어 뒤집기
             </NavDropdown.Item>
-            
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="/Typing"
+              href="#action/3.3"
             >
               일어 타자 연습
             </NavDropdown.Item>
           </NavDropdown>
 
-          <Nav.Link href="/SignIn">Sign In</Nav.Link>
-          <Nav.Link href="/SignUp">Sign Up</Nav.Link>
+          {isLoggedIn ? (
+            <Nav.Link className={styles.logout_link} onClick={handleLogout}>
+              로그아웃
+            </Nav.Link>
+          ) : (
+            <>
+              <Nav.Link href="/SignIn">Sign In</Nav.Link>
+              <Nav.Link href="/SignUp">Sign Up</Nav.Link>
+            </>
+          )}
         </Nav>
       </Container>
     </Navbar>
