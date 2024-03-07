@@ -6,15 +6,15 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "../img/tamago.png";
 import styles from "../css/nav.module.css";
 import { useAuth } from "../contexts/AuthContext";
-import axios from "axios";
+import instance from "../api/axios";
 const MainNavbar: React.FC = () => {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-  const api = axios.create({
-    baseURL: "http://localhost:8000/",
-    withXSRFToken: true,
-    withCredentials: true,
-  });
+  // const api = axios.create({
+  //   baseURL: "http://localhost:8000/",
+  //   withXSRFToken: true,
+  //   withCredentials: true,
+  // });
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
@@ -24,7 +24,7 @@ const MainNavbar: React.FC = () => {
 
       if (accessToken) {
         try {
-          await api.post(
+          await instance.post(
             "/api/logout",
             {},
             {
@@ -71,7 +71,7 @@ const MainNavbar: React.FC = () => {
           <NavDropdown title="단어" id="basic-nav-dropdown">
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.1"
+              href="/CreateWord"
             >
               단어장 만들기
             </NavDropdown.Item>
