@@ -29,29 +29,31 @@ const SignIn = () => {
 
   const [user, setUser] = useState(null);
 
-  const handle_social_login = (provider: string) => {
-    axios
-      .get(`http://localhost:8000/api/social/${provider}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+  const handle_social_login =(provider:string) => {
+
+    axios.get(`http://localhost:8000/api/social/${provider}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
         },
-        withXSRFToken: true,
-        withCredentials: true,
-      })
-      .then((response) => {
+        'withXSRFToken': true,
+        "withCredentials": true,
+
+    })
+    .then((response) => {
         if (response.status === 200) {
-          return response.data;
+            return response.data;
         }
-        throw new Error("Something went wrong!");
-      })
-      .then((data) => {
+        throw new Error('Something went wrong!');
+    })
+    .then((data) => {
         setLoginUrl(data.url);
         setProvider(provider);
-      })
-      .catch((error) => {
-        console.error("소셜 로그인에 실패했습니다:", error);
-      });
+
+    })
+    .catch((error) => {
+        console.error('소셜 로그인에 실패했습니다:', error);
+    });
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,11 +86,7 @@ const SignIn = () => {
     }
   };
 
-  // const provider = 'kakao';
-
-  // // const backendAPIKey = 'e581b0481076ae8faa28a52c157faff3';
-
-  //
+ 
 
   return (
     <div className={styles.wrap}>
@@ -129,31 +127,30 @@ const SignIn = () => {
           </button>
         </div>
 
-        <div className={styles.social_link}>
-          <div className={styles.social_items}>
-            <a href={loginUrl} onClick={() => handle_social_login("google")}>
-              <img className={styles.socialIcon} src={socialGoogle} alt="" />
-            </a>
-          </div>
+      
+<div className={styles.social_link}>
 
-          <div className={styles.social_items}>
-            <a href={loginUrl} onClick={() => handle_social_login("kakao")}>
-              <img className={styles.socialIcon} src={socialKakao} alt="" />
-            </a>
-          </div>
+<div className={styles.social_items}>
+  <a href={loginUrl} onClick={() => handle_social_login('google')}> 
+<img className={styles.socialIcon} src={socialGoogle} alt="" /></a>
+</div>
 
-          <div className={styles.social_items}>
-            <a href={loginUrl} onClick={() => handle_social_login("naver")}>
-              <img className={styles.socialIcon} src={socialNaver} alt="" />
-            </a>
-          </div>
+<div className={styles.social_items}>
+  <a href={loginUrl} onClick={() => handle_social_login('kakao')}> 
+<img className={styles.socialIcon} src={socialKakao} alt="" /></a>
+</div>
 
-          <div className={styles.social_items}>
-            <a href={loginUrl} onClick={() => handle_social_login("github")}>
-              <img className={styles.socialIcon} src={socialGithub} alt="" />
-            </a>
-          </div>
-        </div>
+<div className={styles.social_items}>
+  <a href={loginUrl} onClick={() => handle_social_login('naver')}> 
+<img className={styles.socialIcon} src={socialNaver} alt="" /></a>
+</div>
+
+<div className={styles.social_items}>
+   <a href={loginUrl} onClick={() => handle_social_login('github')}> 
+<img className={styles.socialIcon} src={socialGithub} alt="" /></a>
+</div>
+
+</div>
       </div>
     </div>
   );

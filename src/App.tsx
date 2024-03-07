@@ -12,7 +12,7 @@ import GamePage from "./views/GamePage";
 import SocialCallback from "./views/CallBack";
 import Navbar from "./components/Navbar";
 import CreateWordPage from "./views/CreateWordPage";
-
+import TypingPage from "./views/TypingPage"
 function App() {
   return (
     <AuthProvider>
@@ -39,6 +39,7 @@ function App() {
             path="/social/callback/github"
             element={<SocialCallback provider="github" />}
           ></Route>
+          <Route path="/Typing" element={<TypingPage />} />
 
           <Route path="/Game" element={<GamePage />} />
           <Route path="/CreateWord" element={<CreateWordPage />} />

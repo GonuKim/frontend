@@ -1,6 +1,8 @@
+
 .pageContainer {
   display: flex;
-  justify-content: center; /* 가로 방향 가운데 정렬 */
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   background-color: #212A3E;
   width: 100vw; 
@@ -8,34 +10,111 @@
   
 }
 
-.main_wrap{
-  display: flex;
-  align-items: center;
-  width: 60%; /* 너비 설정 */
-  height: 50%; /* 높이 설정 */
-  background-color: transparent; /* 배경 색상 투명으로 설정 */
+
+.stats_wrap {
+  color: #fff;
+  font-size: 18px;
+  width: 50%; /* 너비 설정 */
+  height: 40%;
+  margin-top: 20px; /* 위쪽 여백 설정 */
   border: 2px solid #000000; /* 테두리 설정 */
   border-radius: 20px; /* 둥근 모서리 설정 */
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* 그림자 효과 설정 */
+  margin-bottom: 2rem;
+  padding: 4rem;
 }
 
-.row {
+
+.text_input{
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: #212A3E;
+  border-bottom: 2px solid #ffffff;
+}
+
+.top_status_container {
   display: flex;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 1px solid #fff;
 }
 
+.status_wrap {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid #fff;
+}
+.top_status_container :nth-child(3) {
+  border-right: none;
+}
+
+
+.sentences {
+  padding-top: 5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 5rem;
+}
+
+
+
+.main_wrap{
+  width: 50%; /* 너비 설정 */
+  /* height: 50%; 높이 설정 */
+  /* background-color: transparent; 배경 색상 투명으로 설정 */
+  border: 2px solid #000000; /* 테두리 설정 */
+  border-radius: 20px; /* 둥근 모서리 설정 */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* 그림자 효과 설정 */
+  padding: 2rem;
+}
 .key {
-  padding: 10px;
-  margin: 5px;
-  font-size: 16px;
-  background-color: #FFFFFF;
-  border: 1px solid #000000;
+  margin: 5px; /* 키 크기를 키우기 위해 여백 조정 */
+  padding: 15px; /* 키 크기를 키우기 위해 안쪽 여백 조정 */
+  background-color: #212A3E; /* 색상 변경 */
+  border: 1px solid #d1d1d1;
   border-radius: 5px;
+  cursor: pointer;
+  color: white; /* 글자 색상 변경 */
+  font-size: 15px; 
 }
 
+
+.key.pressed {
+  background-color: #a8d1ff; 
+}
+
+.key_row {
+  display: flex;
+  justify-content: center;
+}
+
+.specialKey{
+  background-color: #4782f1;
+}
 .keyPressed {
   background-color: #6A8ED1; /* Pressed key color */
 }
 
+.specialKey {
+  grid-column: span 1; /* 특수 키들의 열을 2칸으로 설정하여 더 넓게 표시 */
+}
 
 
+.keyboardRow {
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+}
 
+
+.FaClock {
+  font-size: 40px;
+}
+
+.MdOutlineKeyboardAlt{
+  font-size: 40px;
+}
+
+.FiCheckSquare {
+  font-size: 40px;
+}

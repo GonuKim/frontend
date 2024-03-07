@@ -107,7 +107,7 @@ const MainNavbar: React.FC = () => {
             </NavDropdown.Item>
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.3"
+              href="/Typing"
             >
               일어 타자 연습
             </NavDropdown.Item>
