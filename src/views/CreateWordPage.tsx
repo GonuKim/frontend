@@ -44,13 +44,13 @@ const CreateWord: React.FC = () => {
     return number.toString().padStart(3, "0");
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태를 관리하는 상태 변수
+  const [modalType, setModalType] = useState<string | null>(null);
 
   // 모달을 여는 함수
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (type: string) => setModalType(type);
 
   // 모달을 닫는 함수
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => setModalType(null);
 
   return (
     <div className={styles.main_wrap}>
@@ -63,10 +63,13 @@ const CreateWord: React.FC = () => {
           />
         </div>
         <div className={styles.external_res_wrap}>
-          <h4 className={styles.external_excel} onClick={openModal}>
+          <h4
+            className={styles.external_excel}
+            onClick={() => openModal("EXCEL")}
+          >
             EXCEL로 단어 입력
           </h4>
-          <h4 onClick={openModal}>OCR로 단어 입력</h4>
+          <h4 onClick={() => openModal("OCR")}>OCR로 단어 입력</h4>
         </div>
       </div>
 
@@ -109,7 +112,7 @@ const CreateWord: React.FC = () => {
           <button className={styles.save_btn}>세트 저장하기</button>
         </div>
       </div>
-      {isModalOpen && <Modal closeModal={closeModal} />}
+      {modalType && <Modal type={modalType} closeModal={closeModal} />}
     </div>
   );
 };

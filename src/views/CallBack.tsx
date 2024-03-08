@@ -44,13 +44,12 @@ function SocialCallback({ provider }: SocialCallbackProps) {
         console.log("data: ", response.data);
         console.log("reftoken:", data.refresh_token);
         console.log("acctoken:", data.access_token);
-    })
+      })
       .catch((error) => {
         console.error("Error fetching user data:", error);
         console.log("data:", data);
       });
-      window.location.href = "/Main"; // 이동할 페이지
-
+    window.location.href = "/Main"; // 이동할 페이지
   }
 
   useEffect(() => {
@@ -76,12 +75,10 @@ function SocialCallback({ provider }: SocialCallbackProps) {
         sessionStorage.setItem(
           "refreshToken",
           response.data.refresh_token || ""
-          
         ); // or provide a default value like 'defaultRefreshToken'
-        fetchUserData()
+        fetchUserData();
         console.log(response);
         console.log("location:", location);
-
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -98,8 +95,7 @@ function SocialCallback({ provider }: SocialCallbackProps) {
       return (
         <div>
           <DisplayData data={data} />
-          <div style={{ marginTop: 10 }}>
-          </div>
+          <div style={{ marginTop: 10 }}></div>
         </div>
       );
     }
