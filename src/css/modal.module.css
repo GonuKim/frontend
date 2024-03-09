@@ -5,6 +5,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
@@ -16,7 +17,80 @@
   padding: 20px;
   border-radius: 15px;
   width: 484px;
-  height: 436px;
+  height: 430px;
   max-width: 100%;
-  border: 1.5px solid rgb(168 162 158);
+  border: 1px solid #e2e6ea;
+}
+
+.top_text_container {
+  border-bottom: 2px solid #e2e6ea;
+  margin-bottom: 3rem;
+}
+
+.file {
+  display: none;
+}
+
+.file::file-selector-button {
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 12px;
+  padding: 4px 32px;
+  cursor: pointer;
+}
+
+.upload_box {
+  width: 100%;
+  margin: auto;
+  border-radius: 10px;
+  border: 2.5px dashed #e2e6ea;
+  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.upload_box:hover {
+  background-color: #edf2ff;
+  border: 2.5px solid #3062d4;
+}
+
+.upload_icon {
+  font-size: 5rem;
+  padding-bottom: 1rem;
+}
+
+.upload_msg {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.top_text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.btn_container {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
+.btn_container button {
+  border-radius: 5px;
+  padding: 1rem 2rem 1rem 2rem;
+  margin-left: 1rem;
+  background-color: #ffffff;
+  color: black;
+  border: 2px solid #cacaca;
+  font-size: 1.3rem;
+}
+
+.btn_container :nth-child(2) {
+  background-color: #3062d4;
+  color: #fff;
 }
