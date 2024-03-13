@@ -40,6 +40,7 @@ instance.interceptors.response.use(
         );
         console.log("newTokens::", newTokens);
         sessionStorage.setItem("accessToken", newTokens.token);
+        originalRequest.headers["Authorization"] = `Bearer ${newTokens.token}`;
         instance.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${newTokens.accessToken}`;
