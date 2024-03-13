@@ -11,7 +11,9 @@ const Main = () => {
         <h3 className={styles.top_text}>
           다양한 활동을 통하여 일본어를 늘려보세요!
         </h3>
-        <Carousel />
+        <div className={styles.carousel_container}>
+          <Carousel />
+        </div>
       </div>
 
       <div className={styles.mid_wrap}>

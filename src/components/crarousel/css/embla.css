@@ -4,6 +4,10 @@
   --slide-height: 40rem;
   width: 100%;
   padding: 0rem;
+
+  @media (max-width: 767px) {
+    --slide-height: 20rem;
+  }
 }
 .embla__viewport {
   overflow: hidden;

@@ -150,6 +150,17 @@ export default class FoggyStageScene extends Phaser.Scene {
   }
 
   create() {
+    this.questionTexts = []; // 문제와 선택지 텍스트 객체를 저장할 배열 초기화
+    this.choiceTexts = []; // 선택지 텍스트 객체를 저장할 배열 초기화
+    this.choices = []; // 선택지 문자열 배열 초기화
+    this.buttons = []; // 버튼 객체 배열 초기화
+
+    this.isBackgroundMoving = false; // 배경 움직임 상태 초기화
+
+    this.witchHp = 100; // witch의 HP 초기화
+    this.necromancerHp = 100; // necromancer의 HP 초기화
+    this.killScore = 0; // 킬 점수 초기화
+
     const music = this.sound.add("foggyStageBgm", {
       volume: 0.5,
       loop: true,
@@ -454,13 +465,20 @@ export default class FoggyStageScene extends Phaser.Scene {
         .setInteractive();
       gameOverImage.on("pointerdown", () => {
         // 'welcomeScene'으로 장면 전환
-        this.cameras.main.fadeOut(1000, 0, 0, 0);
-        this.cameras.main.once("camerafadeoutcomplete", () => {
-          this.scene.start("welcome-scene");
-        });
+        gameOverImage.destroy();
+        this.witchHp = 100;
+        this.choiceTexts.forEach((text) => text.setInteractive());
+        setTimeout(() => {
+          this.cameras.main.fadeOut(1000, 0, 0, 0);
+          this.cameras.main.once("camerafadeoutcomplete", () => {
+            this.scene.start("welcome-scene");
+          });
+        }, 1000);
       });
 
-      gameOverImage.on("pointerover", () => gameOverImage.setScale(1.2));
+      gameOverImage.on("pointerover", () => {
+        gameOverImage.setScale(1.2);
+      });
       gameOverImage.on("pointerout", () => gameOverImage.setScale(1));
     }
   }

@@ -47,7 +47,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  font-family: "Pretendard", sans-serif;
+  font-family: "Pretendard-Bold", sans-serif;
   font-weight: 400;
 }
 
@@ -85,5 +85,13 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+.container {
+  padding: 0;
+  margin: 0;
+
+  @media (min-width: 1401) {
+    width: 150vw !important;
   }
 }

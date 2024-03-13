@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import logo from "../img/tamago.png";
+import logo from "../img/tamago_logo.png";
 import styles from "../css/nav.module.css";
 import { useAuth } from "../contexts/AuthContext";
 import instance from "../api/axios";
@@ -18,11 +18,12 @@ const MainNavbar: React.FC = () => {
 
   const handleLogout = async () => {
     const confirmed = window.confirm("로그아웃 하시겠습니까?");
+    const accessToken = sessionStorage.getItem("accessToken");
 
     if (confirmed) {
-      const accessToken = sessionStorage.getItem("accessToken");
-
       if (accessToken) {
+        const accessToken = sessionStorage.getItem("accessToken");
+
         try {
           await instance.post(
             "/api/logout",
@@ -49,8 +50,8 @@ const MainNavbar: React.FC = () => {
   return (
     <Navbar className={styles.navbar} data-bs-theme="white">
       <Container className={styles.nav_container}>
-        <Navbar.Brand className={styles.logo} href="/">
-          <img src={logo} alt="" />
+        <Navbar.Brand className={styles.logo_container} href="/">
+          <img className={styles.logo} src={logo} alt="" />
         </Navbar.Brand>
         <Nav className={styles.nav_content}>
           <NavDropdown title="학습" id="basic-nav-dropdown">
@@ -105,10 +106,7 @@ const MainNavbar: React.FC = () => {
             >
               단어 뒤집기
             </NavDropdown.Item>
-            <NavDropdown.Item
-              className={styles.dropdown_item}
-              href="/Typing"
-            >
+            <NavDropdown.Item className={styles.dropdown_item} href="/Typing">
               일어 타자 연습
             </NavDropdown.Item>
           </NavDropdown>
@@ -119,8 +117,8 @@ const MainNavbar: React.FC = () => {
             </Nav.Link>
           ) : (
             <>
-              <Nav.Link href="/SignIn">Sign In</Nav.Link>
-              <Nav.Link href="/SignUp">Sign Up</Nav.Link>
+              <Nav.Link href="/SignIn">로그인</Nav.Link>
+              <Nav.Link href="/SignUp">회원가입</Nav.Link>
             </>
           )}
         </Nav>

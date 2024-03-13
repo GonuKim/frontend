@@ -25,7 +25,7 @@ body {
 .set_name_input {
   font-size: 2.5rem;
   font-weight: bold;
-  width: 65%;
+  width: 70%;
   color: white;
   background-color: #212a3e;
   margin: 1rem;
@@ -33,6 +33,18 @@ body {
   border: none;
   outline: none;
   border-bottom: 1px solid #ffffff;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: 2rem;
+    width: 85%;
+    padding: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 1.5rem;
+    width: 85%;
+    padding: 1rem;
+  }
 }
 
 .external_res_wrap {
@@ -41,6 +53,14 @@ body {
   color: #ffffff;
   margin-bottom: 2rem;
   margin-top: 1rem;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: 1.7rem;
+  }
+
+  @media (max-width: 767px) {
+    margin: 1rem;
+  }
 }
 
 .external_excel {
@@ -52,12 +72,26 @@ body {
   flex-direction: column;
   padding-top: 3rem;
   padding-bottom: 3rem;
-  width: 65%;
+  width: 70%;
   background-color: #ffffff;
   margin-top: 5rem;
   border-radius: 22px;
   margin-bottom: 5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-size: 2rem;
+    width: 85%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 1.5rem;
+    width: 85%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .word_input_top_text {
@@ -68,12 +102,28 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding-top: 3rem;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: 85%;
+    padding-top: 1rem;
+    margin-left: 5rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 85%;
+    padding-top: 1rem;
+    padding-left: 2rem;
+  }
 }
 .word_input_top_text h3 {
   font-size: 2rem;
   font-weight: bold;
   flex: 1;
   margin-bottom: 0;
+
+  @media (max-width: 767px) {
+    font-size: 1.7rem;
+  }
 }
 .word_input_top_text h3:nth-child(2),
 .word_input_top_text h3:nth-child(3) {
@@ -100,6 +150,14 @@ body {
   font-size: 1.8rem;
   font-weight: bold;
   padding-left: 1rem;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    margin-right: 3rem;
+  }
+
+  @media (max-width: 767px) {
+    margin-right: 1.5rem;
+  }
 }
 
 .word_inputs input:focus {
@@ -127,6 +185,12 @@ body {
   font-size: 2rem;
   background-color: #0071e3;
   transition: background-color 1s, border-radius 1s;
+
+  @media (max-width: 767px) {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .save_btn:hover {
