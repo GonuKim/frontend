@@ -205,12 +205,17 @@ body {
   border: 1px solid #0071e3;
 }
 
-.add_item_btn {
+.add_item_container {
   margin-top: 3rem;
   display: flex;
 
   justify-content: center;
   align-items: center;
+}
+.add_item_btn {
+  display: flex;
+  color: black;
+  background-color: #ffffff;
 }
 
 .plus_icon {

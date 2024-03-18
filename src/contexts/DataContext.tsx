@@ -23,8 +23,10 @@ export const DataContext = createContext<
       setParsedExcelData: React.Dispatch<
         React.SetStateAction<DataState["parsedExcelData"]>
       >;
+      clearParsedExcelData: () => void; // 새로 추가된 초기화 함수
       OCRData: DataState["OCRData"];
       setOCRData: React.Dispatch<React.SetStateAction<DataState["OCRData"]>>;
+      clearOCRData: () => void; // 새로 추가된 초기화 함수
     }
   | undefined
 >(undefined);
@@ -32,21 +34,27 @@ export const DataContext = createContext<
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [parsedExcelData, setParsedExcelData] = useState<
     DataState["parsedExcelData"]
-  >({
-    gana: [],
-    kanji: [],
-    meaning: [],
-  });
-
+  >({ gana: [], kanji: [], meaning: [] });
   const [OCRData, setOCRData] = useState<DataState["OCRData"]>({
     kanji: [],
     gana: [],
     meaning: [],
   });
 
+  const clearParsedExcelData = () =>
+    setParsedExcelData({ gana: [], kanji: [], meaning: [] });
+  const clearOCRData = () => setOCRData({ kanji: [], gana: [], meaning: [] });
+
   return (
     <DataContext.Provider
-      value={{ parsedExcelData, setParsedExcelData, OCRData, setOCRData }}
+      value={{
+        parsedExcelData,
+        setParsedExcelData,
+        clearParsedExcelData,
+        OCRData,
+        setOCRData,
+        clearOCRData,
+      }}
     >
       {children}
     </DataContext.Provider>
