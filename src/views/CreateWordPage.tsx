@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import styles from "../css/CreateWordPage.module.css";
 import { FaCirclePlus } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
@@ -17,6 +17,13 @@ interface WordsState {
 
 const CreateWord: React.FC = () => {
   const { OCRData, parsedExcelData } = useContext(DataContext) || {};
+  const { clearOCRData, clearParsedExcelData } = useContext(DataContext) || {};
+
+  // 데이터를 받아온 후 OCRData, parsedExcelData 초기화 하는 함수
+  const processData = useCallback(() => {
+    clearOCRData?.();
+    clearParsedExcelData?.();
+  }, [clearOCRData, clearParsedExcelData]);
 
   const initialWords: WordsState = {
     title: "",
@@ -25,6 +32,7 @@ const CreateWord: React.FC = () => {
     gana: Array(10).fill(""),
   };
   const [words, setWords] = useState<WordsState>(initialWords);
+  const [externalData, setExternalData] = useState<WordsState | null>(null);
 
   // 빈 열 검사 기능..
   const isDataNotEmpty = (
@@ -36,61 +44,81 @@ const CreateWord: React.FC = () => {
     );
   };
 
-  // OCR, EXCEL 데이터를 받은 후 INPUT에 추가.
-  useEffect(() => {
-    if (parsedExcelData) {
-      console.log("Excel Data Received:", parsedExcelData);
-    }
-    if (OCRData) {
-      console.log("OCR Data Received:", OCRData);
-    }
-    if (isDataNotEmpty(OCRData) || isDataNotEmpty(parsedExcelData)) {
-      setWords((currentWords) => {
-        const newData = {
-          ...currentWords,
-          kanji: [
-            ...currentWords.kanji,
-            ...(OCRData?.kanji || parsedExcelData?.kanji || []).map(
-              (item) => item || ""
-            ),
-          ],
-          meaning: [
-            ...currentWords.meaning,
-            ...(OCRData?.meaning || parsedExcelData?.meaning || []).map(
-              (item) => item || ""
-            ),
-          ],
-          gana: [
-            ...currentWords.gana,
-            ...(OCRData?.gana || parsedExcelData?.gana || []).map(
-              (item) => item || ""
-            ),
-          ],
-        };
+  // 완전히 비어있는 input 열 제거
+  const filterEmptyWords = () => {
+    setWords((currentWords) => {
+      const filteredKanji = currentWords.kanji.filter(
+        (_, index) =>
+          currentWords.kanji[index] ||
+          currentWords.meaning[index] ||
+          currentWords.gana[index]
+      );
+      const filteredMeaning = currentWords.meaning.filter(
+        (_, index) =>
+          currentWords.kanji[index] ||
+          currentWords.meaning[index] ||
+          currentWords.gana[index]
+      );
+      const filteredGana = currentWords.gana.filter(
+        (_, index) =>
+          currentWords.kanji[index] ||
+          currentWords.meaning[index] ||
+          currentWords.gana[index]
+      );
 
-        return filterEmptyWords(newData);
-      });
-    }
-  }, [parsedExcelData, OCRData]);
-
-  //빈 INPUT 필터
-  const filterEmptyWords = (words: WordsState): WordsState => {
-    return {
-      ...words,
-      kanji: words.kanji.filter(
-        (_: unknown, index: number) =>
-          words.kanji[index] || words.meaning[index] || words.gana[index]
-      ),
-      meaning: words.meaning.filter(
-        (_: unknown, index: number) =>
-          words.kanji[index] || words.meaning[index] || words.gana[index]
-      ),
-      gana: words.gana.filter(
-        (_: unknown, index: number) =>
-          words.kanji[index] || words.meaning[index] || words.gana[index]
-      ),
-    };
+      return {
+        ...currentWords,
+        kanji: filteredKanji,
+        meaning: filteredMeaning,
+        gana: filteredGana,
+      };
+    });
   };
+
+  // OCR, EXCEL 데이터를 저장 후 words에 추가
+  useEffect(() => {
+    let newData: WordsState | null = null;
+
+    const convertNullToEmptyString = (array: (string | null)[]) =>
+      array.map((item) => (item === null ? "" : item));
+
+    if (isDataNotEmpty(OCRData)) {
+      newData = {
+        title: "",
+        kanji: convertNullToEmptyString(OCRData?.kanji || []),
+        meaning: convertNullToEmptyString(OCRData?.meaning || []),
+        gana: convertNullToEmptyString(OCRData?.gana || []),
+      };
+    } else if (isDataNotEmpty(parsedExcelData)) {
+      newData = {
+        title: "",
+        kanji: convertNullToEmptyString(parsedExcelData?.kanji || []),
+        meaning: convertNullToEmptyString(parsedExcelData?.meaning || []),
+        gana: convertNullToEmptyString(parsedExcelData?.gana || []),
+      };
+    }
+
+    setExternalData(newData);
+    newData = null;
+    console.log("data11", newData);
+  }, [OCRData, parsedExcelData, processData]);
+
+  // externalData를 기반으로 words 업데이트
+  useEffect(() => {
+    console.log("exterData는", externalData);
+
+    if (externalData) {
+      setWords((currentWords) => ({
+        ...currentWords,
+        kanji: [...currentWords.kanji, ...externalData.kanji],
+        meaning: [...currentWords.meaning, ...externalData.meaning],
+        gana: [...currentWords.gana, ...externalData.gana],
+      }));
+      setExternalData(null);
+      processData();
+      filterEmptyWords();
+    }
+  }, [externalData, parsedExcelData, processData]);
 
   //단어, 세트명 관련 기능들...
   const addWord = () => {
@@ -134,13 +162,20 @@ const CreateWord: React.FC = () => {
   // 단어장 저장 api
   const sendWordData = async () => {
     const accessToken = sessionStorage.getItem("accessToken");
-    const filteredWords = filterEmptyWords(words);
-    filteredWords;
+    filterEmptyWords();
+
+    // 단어제목이나 단어가 비어있을 시 저장을 막고 경고창.
+    if (!words.title.trim() || words.kanji.length === 0) {
+      alert("세트 제목을 입력하거나 최소 한 단어를 추가해야 합니다.");
+      return;
+    }
+
+    console.log("words=::", words);
     try {
-      console.log("words:::", filteredWords);
+      console.log("words:::");
       const response = await instance.post(
         "/api/vocabularyNote/userCreate",
-        filteredWords,
+        words,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -181,6 +216,7 @@ const CreateWord: React.FC = () => {
             placeholder="세트명을 입력하세요. (예: JLPT N1 단어)"
             type="text"
             value={words.title}
+            required
             onChange={(e) => updateSetName(e.target.value)}
           />
         </div>
@@ -235,9 +271,11 @@ const CreateWord: React.FC = () => {
           ))}
         </div>
 
-        <div className={styles.add_item_btn} onClick={addWord}>
-          <FaCirclePlus className={styles.plus_icon} />
-          <h3 className={styles.plus_text}>항목 추가</h3>
+        <div className={styles.add_item_container} onClick={addWord}>
+          <button className={styles.add_item_btn}>
+            <FaCirclePlus className={styles.plus_icon} />
+            <h3 className={styles.plus_text}>항목 추가</h3>
+          </button>
         </div>
 
         <div className={styles.save_btn_wrap}>
