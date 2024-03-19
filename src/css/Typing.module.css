@@ -118,3 +118,47 @@
 .FiCheckSquare {
   font-size: 40px;
 }
+
+/* 모달 창을 나타내는 CSS */
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 10px solid #19548b;
+  padding: 100px;
+  border-radius: 10px;
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  font-size: 50px; 
+  line-height: 1.5; /* 헤딩의 줄 간격 조절 */
+}
+
+.modalContent p {
+  margin-bottom: 10px;
+  font-size: 30px;
+  line-height: 2.0; /* 문단의 줄 간격 조절 */
+}
+
+.closeButton {
+  background-color: #28344e;
+  color: white;
+  font-size: 23px;
+  margin-top: 30px; /* 버튼 위쪽 여백 추가 */
+  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 것으로 표시 */
+}
