@@ -99,7 +99,7 @@ const MainNavbar: React.FC = () => {
             </NavDropdown.Item>
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.2"
+              href="/FlipWord"
             >
               단어 뒤집기
             </NavDropdown.Item>

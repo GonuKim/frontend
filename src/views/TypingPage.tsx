@@ -165,7 +165,7 @@ const TypingPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
+  <div className={styles.pageContainer}>
     <div className={styles.stats_wrap}>
       <div className={styles.stats}>
         <div className={styles.top_status_container}>
