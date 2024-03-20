@@ -16,6 +16,7 @@ import CreateWordPage from "./views/CreateWordPage";
 import WordCardPage from "./views/WordCardPage";
 import SetListPage from "./views/SetListPage";
 import TypingPage from "./views/TypingPage";
+import FlipWordPage from "./views/FlipWordPage";
 
 // const CreateWordWrapper = () => (
 //   <DataProvider>
@@ -61,6 +62,7 @@ function App() {
           />
           <Route path="/set/:id" element={<WordCardPage />} />
           <Route path="/MySet" element={<SetListPage />} />
+          <Route path="/FlipWord" element={<FlipWordPage />} />
         </Routes>
       </Router>
     </AuthProvider>
