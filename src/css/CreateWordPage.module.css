@@ -13,7 +13,7 @@ body {
 
 .set_name_wrap {
   width: 100%;
-  background-color: #212a3e;
+  background-color: #006fff;
 }
 
 .set_name_input_wrap {
@@ -26,8 +26,8 @@ body {
   font-size: 2.5rem;
   font-weight: bold;
   width: 70%;
-  color: white;
-  background-color: #212a3e;
+  color: #ffffff;
+  background-color: #006fff;
   margin: 1rem;
   padding: 2rem;
   border: none;

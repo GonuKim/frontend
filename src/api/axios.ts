@@ -5,24 +5,24 @@ const instance = axios.create({
   withXSRFToken: true,
   withCredentials: true,
 });
+const refreshToken = sessionStorage.getItem("refreshToken");
 
 // refreshToken을 사용하여 새로운 토큰을 요청하는 함수
-async function refreshAccessToken(refreshToken: string) {
+async function refreshAccessToken() {
   try {
     const response = await axios.post(
       `${instance.defaults.baseURL}/api/refresh`,
-      {},
+      refreshToken,
       {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
       }
     );
-    console.log(response.data);
+    console.log("response", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error refreshing access token: ", error);
-    throw error;
+    // 에러 처리
   }
 }
 
@@ -35,16 +35,19 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const newTokens = await refreshAccessToken(
-          sessionStorage.getItem("refreshToken") || ""
-        );
+        const newTokens = await refreshAccessToken();
         console.log("newTokens::", newTokens);
-        sessionStorage.setItem("accessToken", newTokens.token);
-        originalRequest.headers["Authorization"] = `Bearer ${newTokens.token}`;
-        instance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newTokens.accessToken}`;
-        return instance(originalRequest);
+
+        if (newTokens && newTokens.token) {
+          sessionStorage.setItem("accessToken", newTokens.token);
+          originalRequest.headers[
+            "Authorization"
+          ] = `Bearer ${newTokens.token}`;
+          instance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newTokens.token}`;
+          return instance(originalRequest);
+        }
       } catch (refreshError) {
         console.error("Token refresh failed", refreshError);
         return Promise.reject(refreshError);

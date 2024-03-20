@@ -1,0 +1,94 @@
+.main_container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  overflow: auto;
+  align-items: center;
+}
+
+.top_name_container {
+  width: 100%;
+  background-color: #006fff;
+  color: #ffffff;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.title_container {
+  display: flex;
+  align-items: center;
+}
+
+.set_name {
+  font-size: 3rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  border-right: 3px solid #e2e6ea;
+}
+
+.card_num {
+  font-size: 1.5rem;
+}
+
+.btn_container {
+  width: 80%;
+  display: flex;
+  padding-top: 3%;
+  justify-content: flex-start;
+}
+
+.btn_container button {
+  border-radius: 10px;
+  padding: 1rem 2rem 1rem 2rem;
+  background-color: #3062d4;
+  box-shadow: 0 0 10px rgba(0, 99, 255, 0.5);
+  color: #ffffff;
+  border: 2px solid #cacaca;
+  font-size: 2rem;
+}
+
+.card_main_container {
+  margin-top: 1%;
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap; /* 여러 줄로 카드를 나열하기 위해 wrap 사용 */
+  justify-content: space-between; /* 카드 사이에 균등한 간격을 두기 위함 */
+  align-items: flex-start; /* 카드를 상단에 정렬 */
+}
+
+.card_wrap {
+  font-size: 2rem;
+  font-weight: bold;
+  width: calc(33% - 2%); /* 한 줄에 3개씩 배치, 20px은 마진 고려 */
+  background-color: #ffffff;
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 99, 255, 0.3);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  margin-bottom: 2%;
+}
+
+.kanji_wrap {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.mean_gana_wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
