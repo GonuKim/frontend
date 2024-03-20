@@ -4,6 +4,7 @@ import styles from "../css/modal.module.css";
 import instance from "../api/axios";
 import { DataContext } from "../contexts/DataContext";
 import LoadingBar from "./LoadingBar";
+import axios from "axios";
 
 interface ModalProps {
   closeModal: () => void;
@@ -62,14 +63,24 @@ const Modal: React.FC<ModalProps & { type: string }> = ({
             },
           }
         );
+        console.log(response.data);
         // Excel 데이터를 전역 상태로 업데이트
         setParsedExcelData({
-          gana: JSON.parse(response.data.gana),
-          kanji: JSON.parse(response.data.kanji),
-          meaning: JSON.parse(response.data.meaning),
+          gana: response.data.gana,
+          kanji: response.data.kanji,
+          meaning: response.data.meaning,
         });
       } catch (error) {
-        console.error("error:", error);
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+
+          if (axios.isAxiosError(error)) {
+            console.error("Error data:", error.response?.data);
+            console.error("Error status:", error.response?.status);
+          }
+        } else {
+          console.error("An unexpected error occurred");
+        }
       }
     }
     setLoading(false);

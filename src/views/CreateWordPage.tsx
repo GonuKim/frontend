@@ -173,15 +173,11 @@ const CreateWord: React.FC = () => {
     console.log("words=::", words);
     try {
       console.log("words:::");
-      const response = await instance.post(
-        "/api/vocabularyNote/userCreate",
-        words,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await instance.post("/api/vocabularyNote/store", words, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log("Data sent successfully:", response.data);
     } catch (error) {
       if (error instanceof Error) {

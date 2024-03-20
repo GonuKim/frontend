@@ -76,10 +76,7 @@ const MainNavbar: React.FC = () => {
             >
               단어장 만들기
             </NavDropdown.Item>
-            <NavDropdown.Item
-              className={styles.dropdown_item}
-              href="#action/3.2"
-            >
+            <NavDropdown.Item className={styles.dropdown_item} href="/MySet">
               내가 만든 단어장
             </NavDropdown.Item>
             <NavDropdown.Item

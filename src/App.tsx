@@ -13,6 +13,8 @@ import GamePage from "./views/GamePage";
 import SocialCallback from "./views/CallBack";
 import Navbar from "./components/Navbar";
 import CreateWordPage from "./views/CreateWordPage";
+import WordCardPage from "./views/WordCardPage";
+import SetListPage from "./views/SetListPage";
 import TypingPage from "./views/TypingPage";
 
 // const CreateWordWrapper = () => (
@@ -57,6 +59,8 @@ function App() {
               </DataProvider>
             }
           />
+          <Route path="/set/:id" element={<WordCardPage />} />
+          <Route path="/MySet" element={<SetListPage />} />
         </Routes>
       </Router>
     </AuthProvider>
