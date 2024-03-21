@@ -20,6 +20,14 @@
   height: auto;
   max-width: 100%;
   border: 1px solid #e2e6ea;
+
+  @media (max-width: 900px) {
+    width: 55vw;
+  }
+
+  @media (max-width: 600px) {
+    width: 75vw;
+  }
 }
 
 .top_text_container {

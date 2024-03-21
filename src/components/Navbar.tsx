@@ -7,6 +7,8 @@ import logo from "../img/tamago_logo.png";
 import styles from "../css/nav.module.css";
 import { useAuth } from "../contexts/AuthContext";
 import instance from "../api/axios";
+import { Link } from "react-router-dom";
+
 const MainNavbar: React.FC = () => {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -50,8 +52,10 @@ const MainNavbar: React.FC = () => {
   return (
     <Navbar className={styles.navbar} data-bs-theme="white">
       <Container className={styles.nav_container}>
-        <Navbar.Brand className={styles.logo_container} href="/">
-          <img className={styles.logo} src={logo} alt="" />
+        <Navbar.Brand className={styles.logo_container}>
+          <Link to="/">
+            <img className={styles.logo} src={logo} alt="" />
+          </Link>
         </Navbar.Brand>
         <Nav className={styles.nav_content}>
           <NavDropdown title="학습" id="basic-nav-dropdown">
@@ -72,11 +76,16 @@ const MainNavbar: React.FC = () => {
           <NavDropdown title="단어" id="basic-nav-dropdown">
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="/CreateWord"
+              as={Link}
+              to="/CreateWord"
             >
               단어장 만들기
             </NavDropdown.Item>
-            <NavDropdown.Item className={styles.dropdown_item} href="/MySet">
+            <NavDropdown.Item
+              className={styles.dropdown_item}
+              as={Link}
+              to="/MySet"
+            >
               내가 만든 단어장
             </NavDropdown.Item>
             <NavDropdown.Item
@@ -94,16 +103,25 @@ const MainNavbar: React.FC = () => {
           </NavDropdown>
 
           <NavDropdown title="게임" id="basic-nav-dropdown">
-            <NavDropdown.Item className={styles.dropdown_item} href="/game">
+            <NavDropdown.Item
+              className={styles.dropdown_item}
+              as={Link}
+              to="/game"
+            >
               Word of World
             </NavDropdown.Item>
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="/FlipWord"
+              as={Link}
+              to="/FlipWord"
             >
               단어 뒤집기
             </NavDropdown.Item>
-            <NavDropdown.Item className={styles.dropdown_item} href="/Typing">
+            <NavDropdown.Item
+              className={styles.dropdown_item}
+              as={Link}
+              to="/Typing"
+            >
               일어 타자 연습
             </NavDropdown.Item>
           </NavDropdown>
@@ -114,8 +132,12 @@ const MainNavbar: React.FC = () => {
             </Nav.Link>
           ) : (
             <>
-              <Nav.Link href="/SignIn">로그인</Nav.Link>
-              <Nav.Link href="/SignUp">회원가입</Nav.Link>
+              <Nav.Link as={Link} to="/SignIn">
+                로그인
+              </Nav.Link>
+              <Nav.Link as={Link} to="/SignUp">
+                회원가입
+              </Nav.Link>
             </>
           )}
         </Nav>
