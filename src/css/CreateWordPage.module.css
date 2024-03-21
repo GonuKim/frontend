@@ -47,6 +47,10 @@ body {
   }
 }
 
+.set_name_input::placeholder {
+  color: #cfe2ff;
+}
+
 .external_res_wrap {
   display: flex;
   justify-content: center;
