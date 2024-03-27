@@ -6,6 +6,8 @@ import { FaCircleArrowLeft } from "react-icons/fa6";
 import { BsEmojiSunglassesFill } from "react-icons/bs";
 import { BsFillEmojiTearFill } from "react-icons/bs";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { GiPartyPopper } from "react-icons/gi";
+
 interface Word {
   kanji: string;
   meaning: string;
@@ -23,9 +25,9 @@ const MemorizePage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [knownWords, setKnownWords] = useState<Word[]>([]);
   const [unknownWords, setUnknownWords] = useState<Word[]>([]);
-
+  const [currentWordNum, setCurrentWordNum] = useState<number>(0);
   // 단어를 다 컴토했는지 확인하는 상태
-  const isReviewComplete = currentIndex >= words.length;
+  const isReviewComplete = currentWordNum >= words.length;
 
   // 애니메이션 관련 변수
   const [animateX, setAnimateX] = useState<number | string>("0%");
@@ -40,7 +42,8 @@ const MemorizePage: React.FC = () => {
   useEffect(() => {
     console.log(words);
     console.log("title::", title);
-  }, [words, title]);
+    console.log("currentNum", currentWordNum);
+  }, [words, title, currentWordNum]);
 
   // Space Bar 눌렀을 때의 애니메이션 함수
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -77,9 +80,11 @@ const MemorizePage: React.FC = () => {
         setShowDetails(false); // 상세 정보 표시 상태 초기화
         y.set(0);
         setCorrectButtonClicked(false);
+        setCurrentWordNum((current) => current + 1);
         setKanjiStyle({ color: "black", scale: 1 });
       }, 500); // 카드가 넘어가는 애니메이션 지속 시간
     }, 600); // 버튼 애니메이션 지속 시간
+    console.log("currentWordNum:::", currentWordNum);
   };
 
   //알고 있어요 버튼 클릭 시 해당 단어를 knownWords에 추가
@@ -89,6 +94,7 @@ const MemorizePage: React.FC = () => {
         setKnownWords((prevWords) => [...prevWords, words[currentIndex]]);
         console.log("known::", knownWords);
         console.log("currentIndex::", currentIndex);
+        console.log("words.length", words.length);
         setCorrectButtonClicked(false);
       }, 600);
     }
@@ -108,10 +114,12 @@ const MemorizePage: React.FC = () => {
         );
         setAnimateX(0);
         setShowDetails(false); // 상세 정보 표시 상태 초기화
+        setCurrentWordNum((current) => current + 1);
         y.set(0);
         setWrongButtonClicked(false);
       }, 500); // 카드가 넘어가는 애니메이션 지속 시간
     }, 600); // 버튼 애니메이션 지속 시간
+    console.log("currentWordNum:::", currentWordNum);
   };
 
   //모르겠어요 버튼 클릭 시 해당 단어를 unKnownWords에 추가
@@ -149,7 +157,15 @@ const MemorizePage: React.FC = () => {
             className={styles.card_container}
           >
             {isReviewComplete ? (
-              <div className={styles.done_wrap}>고생했어요!</div>
+              <div className={styles.done_wrap}>
+                <p className={styles.done_text}>
+                  대단해요!
+                  <GiPartyPopper className={styles.party_emoji} />
+                  <br />
+                  {words.length}개의 단어 중 {knownWords.length}개의 단어를
+                  맞췄어요!
+                </p>
+              </div>
             ) : (
               <>
                 <div className={styles.top_wrap}>
