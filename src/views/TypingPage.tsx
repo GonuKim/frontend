@@ -130,39 +130,44 @@ const TypingPage: React.FC = () => {
      { code: 'KeyN', label: 'N' }, { code: 'KeyM', label: 'M' }, { code: 'Comma', label: ',' }, { code: 'Period', label: '.' }, { code: 'Slash', label: '/' }]
   ];
 
+
+
   const fetchSentences = async () => {
     try {
       // 1. 사용자가 인증되었는지 확인하고 토큰 
       const accessToken = sessionStorage.getItem("accessToken");
   
       // 2. 토큰이 있는 경우에만 API 요청 
-      if (accessToken) {
+
         const response = await instance.get(
-          "api/typing/getSentences",
+          "/api/typing/getSentences",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
+            
           }
         );
+        console.log(response)
         const sentences: string[] = response.data.map((data: any) => data.sentence);
         const randomIndex = Math.floor(Math.random() * sentences.length);
         const selectedSentence = sentences[randomIndex];
         // 문장을 JSX로 변환하여 상태에 설정
-        setSentences(selectedSentence);
-      } else {
-        // 토큰이 없는 경우에는 오류 메시지를 출력
-        console.error("Access token is missing.");
-      }
-    } catch (error) {
-      console.error("Error fetching sentences:", error);
-    }
-  };
+        setSentences(selectedSentence)
+
+  } catch (error) {
+    console.error("Error fetching sentences:", error)
+  }
+}
   
   const handleKeyPress = (code: string) => {
     // 일본어 입력에 대한 처리를 추가
     // 예를 들어, 일본어 키 입력을 처리하여 typedText와 inputText를 업데이트
   };
+
+  // useEffect(() => {
+  //   fetchSentences();
+  // })
 
   return (
   <div className={styles.pageContainer}>
