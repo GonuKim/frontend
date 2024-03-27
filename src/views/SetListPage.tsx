@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../css/SetListpage.module.css";
 import instance from "../api/axios";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import LoadingBar from "../components/LoadingBar";
 
 interface Post {
   id: number;
@@ -12,14 +13,17 @@ interface Post {
 
 const SetListPage: React.FC = () => {
   const [posts, setPosts] = React.useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getListData = async () => {
+      setLoading(true);
+
       const accessToken = sessionStorage.getItem("accessToken");
       try {
-        const response = await instance.post(
-          "api/vocabularyNote/index",
-          {},
+        const response = await instance.get(
+          "api/vocabularyNote/",
+
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -57,6 +61,7 @@ const SetListPage: React.FC = () => {
           console.error("An unexpected error occurred");
         }
       }
+      setLoading(false);
     };
     getListData();
   }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시에만 함수가 실행되도록 합니다.
@@ -67,10 +72,12 @@ const SetListPage: React.FC = () => {
 
   return (
     <div className={styles.main_container}>
+      {loading && <LoadingBar />}
       <div className={styles.top_name_wrap}>
         <div className={styles.top_name_container}>
           <h3>내가 만든 단어장</h3>
         </div>
+        L
       </div>
 
       <div className={styles.set_list_wrap}>

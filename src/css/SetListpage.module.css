@@ -18,11 +18,17 @@
 .top_name_container {
   width: 100%;
   padding: 3rem;
+  @media (max-width: 700px) {
+    padding: 2rem;
+  }
 }
 
 .top_name_container h3 {
   font-size: 3rem;
   color: #ffffff;
+  @media (max-width: 700px) {
+    font-size: 2rem;
+  }
 }
 
 .set_list_wrap {
@@ -40,6 +46,9 @@
   justify-content: space-between;
   font-size: 1.8rem;
   padding-left: 10%;
+  @media (max-width: 700px) {
+    font-size: 1.5rem;
+  }
 }
 
 .article_container p {
@@ -58,6 +67,10 @@
   padding: 1%;
   padding-left: 10%;
   border-radius: 7px;
+
+  @media (max-width: 700px) {
+    font-size: 1.5rem;
+  }
 }
 
 .set_info_container:hover {
@@ -79,6 +92,10 @@
   color: black;
   border: 2px solid #cacaca;
   font-size: 1.3rem;
+  @media (max-width: 700px) {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1rem;
+  }
 }
 
 .link_style {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "../css/WordCardPage.module.css";
 import instance from "../api/axios";
 import axios from "axios";
@@ -28,7 +28,7 @@ const WordCardPage: React.FC = () => {
 
       const accessToken = sessionStorage.getItem("accessToken");
       try {
-        const response = await instance.get(`api/vocabularyNote/show/${id}`, {
+        const response = await instance.get(`api/vocabularyNote/${id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -84,7 +84,12 @@ const WordCardPage: React.FC = () => {
         </div>
       </div>
       <div className={styles.btn_container}>
-        <button>암기학습</button>
+        <Link
+          to={`/Memorize/${id}`}
+          state={{ words: words, title: info.title }}
+        >
+          <button>암기학습</button>
+        </Link>
       </div>
 
       <div className={styles.card_main_container}>
