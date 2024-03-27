@@ -30,14 +30,14 @@ const SetListPage: React.FC = () => {
             },
           }
         );
-        console.log(response.data);
+        console.log("response.data.data:::", response.data.data);
 
         // API 응답에서 게시글 배열에 접근하여 상태 업데이트
         if (
           response.data.status === "Success" &&
-          Array.isArray(response.data.data)
+          Array.isArray(response.data.data.notes)
         ) {
-          const receivedPosts: Post[] = response.data.data.map(
+          const receivedPosts: Post[] = response.data.data.notes.map(
             (post: Post) => ({
               id: post.id, // id 값도 포함하여 매핑
               updated_at: post.updated_at,
