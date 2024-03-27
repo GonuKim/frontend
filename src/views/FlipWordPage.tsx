@@ -5,6 +5,7 @@ import styles from "../css/FlipWordPage.module.css";
 interface Word {
    kanji: string;
    meaning: string;
+   
 }
 
 const FlipWordPage: React.FC = () => {
@@ -13,17 +14,20 @@ const FlipWordPage: React.FC = () => {
     const cardTwoRef = useRef<HTMLLIElement | null>(null);
     const disableDeckRef = useRef(false);
     const [words, setWords] = useState<Word[]>([]);
+    const [selectedCards, setSelectedCards] = useState<HTMLLIElement[]>([]);
 
     useEffect(() => {
         cardsRef.current = document.querySelectorAll(`.${styles.cards} li`);
     }, []);
 
+
+    
     const fetchWords = async () => {
         const accessToken = sessionStorage.getItem("accessToken");
         try {
-            const response = await instance.post(
-                "api/vocabularyNote/index",
-                {}, 
+            const response = await instance.get(
+                "api/vocabularyNote",
+                 
                 {
                     headers: {
                         "Content-Type": "application/json", 
@@ -31,62 +35,67 @@ const FlipWordPage: React.FC = () => {
                     },
                 }
             );
-            // 응답 데이터를 받아온 후 처리
-
-            // 여러개의 단어장 중 사용자가 고른 단어장의 ID번호를 저장 후  
-            // 밑의 data[i] 에서 i에 저장 후 카드를 배치해야 합니다.
-            // 이거 로직은 챗지피티나 구글에 검색하면 많이 나와요
-            // 단어중 null값이 포함돼있기 때문에 words에 저장할 때 ""(빈문자열)로 저장해야 합니다.
-            // 그 후 key : value에서 "" : value 값인 객체는 삭제하는 작업이 필요합니다.
-            // 최종적으로 words에는 "한자" : "의미"의 형태만 저장되도록 해야 합니다.
-            console.log("response.data",response.data);
+    
+            console.log("response.data", response.data);
             const data = response.data.data;
-            console.log("data::",data)
-            const kanji = JSON.parse(data[8].kanji) || []; 
-            const meaning = JSON.parse(data[8].meaning) || [];
-            console.log(kanji, meaning);
-            // 서버로부터 받아온 데이터가 Word 인터페이스와 일치하는지 확인
-            setWords([
-                    kanji, meaning
-               ])
-               console.log(words)
+            console.log("data::", data);
+    
+            const kanji: string[] = JSON.parse(data[0].kanji) || []; 
+            const meaning: string[] = JSON.parse(data[0].meaning) || [];
+            console.log("kanji:", kanji ,"meaning:", meaning);
+            // kanji와 meaning 배열에서 null 값을 제거하고 타입을 명시합니다.
+            const filteredWords: Word[] = kanji.reduce<Word[]>((acc, kanjiValue, index) => {
+                const correspondingMeaning = meaning[index];
+                if (kanjiValue && correspondingMeaning) { // null이 아니면 추가
+                    acc.push({ kanji: kanjiValue, meaning: correspondingMeaning });
+                }
+                return acc;
+            }, []);
+    
+            console.log(filteredWords);
+            setWords(filteredWords);
         } catch (error) {
+            
             console.error("Error:", error);
         }
     };
-    
-    useEffect(() => {
+
+   useEffect(() => {
         fetchWords();
     }, []);
     
 
     const flipCard = (e: React.MouseEvent<HTMLLIElement>) => {
         const clickedCard = e.currentTarget;
-
-        if (!clickedCard || cardOneRef.current || disableDeckRef.current) {
+    
+        if (!clickedCard || selectedCards.length === 2 || disableDeckRef.current) {
             return;
         }
-
+    
         clickedCard.classList.add(styles.flip);
-
-        if (!cardOneRef.current) {
-            cardOneRef.current = clickedCard;
-        } else {
-            cardTwoRef.current = clickedCard;
-            disableDeckRef.current = true;
-
-            if (cardOneRef.current && cardTwoRef.current) {
-                const cardOneBack = (cardOneRef.current as HTMLElement).querySelector(`.${styles.back}`) as HTMLElement;
-                const cardTwoBack = (cardTwoRef.current as HTMLElement).querySelector(`.${styles.back}`) as HTMLElement;
-            
-                if (cardOneBack && cardTwoBack) {
-                    const cardOneText = cardOneBack.textContent || "";
-                    const cardTwoText = cardTwoBack.textContent || "";
-                    matchCards(cardOneText, cardTwoText);
-                }
+        setSelectedCards(prev => [...prev, clickedCard]);
+    
+        if (selectedCards.length + 1 === 2) {
+            const matchId1 = selectedCards[0].getAttribute('data-match-id');
+            const matchId2 = clickedCard.getAttribute('data-match-id');
+    
+            if (matchId1 === matchId2) {
+                console.log("Match found!");
+                // 카드 일치 처리
+                setSelectedCards([]);
+                disableDeckRef.current = true; // 카드 일치 시 잠시 카드 선택 비활성화
+            } else {
+                console.log("No match.");
+                // 일치하지 않는 경우, 선택된 카드 초기화 및 카드 뒤집기 처리
+                setTimeout(() => {
+                    selectedCards.forEach(card => card.classList.remove(styles.flip));
+                    clickedCard.classList.remove(styles.flip);
+                    setSelectedCards([]);
+                }, 1000);
             }
         }
     };
+    
 
     function matchCards(text1: string, text2: string) {
         if (text1 === text2) {
@@ -126,29 +135,34 @@ const FlipWordPage: React.FC = () => {
         };
     }, []);
 
+    
+
+
+
     return (
-       <div className={styles.pageContainer}>
-        <div>{}</div>
-        <div className={styles.wrap__card}>
-            <div className={styles.card__inner}>
-                <ul className={styles.cards}>
-                    {words.map((word, index) => (
-                        <li key={index}>
-                            <div className={`${styles.view} ${styles.front}`}>
-                                {/* 앞면에는 아무 것도 표시하지 않음 */}
-                            </div>
-                            <div className={`${styles.view} ${styles.back}`}>
-                                {/* 일본어 단어와 한국어 의미 표시 */}
-                                <div>{word.kanji}</div>
-                                <div>{word.meaning}</div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+   <div className={styles.pageContainer}>
+    <div>{}</div>
+    <div className={styles.wrap__card}>
+        <div className={styles.card__inner}>
+            <ul className={styles.cards}>
+                {words.slice(0, 16).map((word, index) => ( // 여기를 수정했습니다.
+                    <li key={index} >
+                        <div className={`${styles.view} ${styles.front}`}>
+                            {/* 앞면에는 아무 것도 표시하지 않음 */}
+                        </div>
+                        <div className={`${styles.view} ${styles.back}`}>
+                            {/* 일본어 단어와 한국어 의미 표시 */}
+                            <div>{word.kanji}</div>
+                            <div>{word.meaning}</div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
-    </div>   
-    );
+    </div>
+</div>   
+);
+
 };
 
 export default FlipWordPage;

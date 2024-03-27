@@ -1,11 +1,11 @@
-.pageContainer{
+.pageContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #212A3E;
-    width: 100vw; 
-    height: 100vh; 
+    width: 100vw;
+    height: 100vh;
 }
 
 .wrap__card {
@@ -16,11 +16,15 @@
 }
 
 .card__inner {
-    width: 700px;
-    height: 700px;
+    width: 700px; /* 카드 컨테이너의 너비 */
+    height: 700px; /* 카드 컨테이너의 높이 */
     background-color: #fff;
-    border-radius: 20px;
-    padding: 30px;
+    border-radius: 5px;
+    padding: 5px; /* 카드와의 간격을 위한 패딩 */
+    display: flex;
+    flex-wrap: wrap; /* 카드들이 줄 바꿈 되도록 설정 */
+    justify-content: space-around; /* 카드들 사이의 수평 간격 조정 */
+    align-content: space-around; /* 카드들 사이의 수직 간격 조정 */
 }
 
 .cards {
@@ -33,13 +37,17 @@
 }
 
 .cards li {
-    width: calc(100% / 4 - 20px);
-    height: calc(100% / 4 - 20px);
+    width: calc((100% - 80px) / 4); /* 전체 너비에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
+    height: calc((100% - 80px) / 4); /* 전체 높이에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
     border: 1px solid #ccc;
     perspective: 1000px;
     transform-style: preserve-3d;
     position: relative;
+    margin: 10px; /* 카드 간의 간격 */
 }
+
+
+
 
 .cards li .view {
     position: absolute;
@@ -51,6 +59,7 @@
     height: 100%;
     user-select: none;
     pointer-events: none;
+    font-size: 35px; /* 여기에 글자 크기를 조정합니다 */
 }
 
 .cards li .view.front {
