@@ -78,7 +78,27 @@
 
 .top_wrap {
   border-bottom: 3px solid #e2e6ea;
-  font-size: 5rem;
+  font-size: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%; /* 부모 컨테이너의 높이를 채움 */
+}
+
+.rating_text_wrap {
+  align-self: center;
+  font-size: 2rem;
+  display: flex;
+}
+
+.rating_correct {
+  color: #006fff;
+}
+
+.kanji_container {
+  flex: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -86,7 +106,7 @@
 .bottom_wrap {
   position: relative;
   overflow: hidden;
-  font-size: 3rem;
+  font-size: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center; /* 중앙 정렬 */
@@ -113,6 +133,7 @@
 
 .curtain_text {
   color: #ffffff;
+  font-size: 3rem;
 }
 
 .next_btn {
