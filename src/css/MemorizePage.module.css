@@ -85,6 +85,7 @@
 
 .bottom_wrap {
   position: relative;
+  overflow: hidden;
   font-size: 3rem;
   display: flex;
   flex-direction: column;
@@ -94,12 +95,24 @@
 }
 
 .bottom_wrap_curtain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   position: absolute;
   background-color: #006fff;
   width: 100%;
-  height: 30vh;
+  height: 100%;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.curtain_text {
+  color: #ffffff;
 }
 
 .next_btn {
