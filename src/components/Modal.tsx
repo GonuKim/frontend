@@ -94,14 +94,22 @@ const Modal: React.FC<ModalProps & { type: string }> = ({
       const formData = new FormData();
       formData.append("image", file);
       try {
-        const response = await instance.post("/api/ocr", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await instance.post(
+          "/api/vocabularyNote/ocr",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         // OCR 데이터를 전역 상태로 업데이트
-        setOCRData(response.data);
+        console.log("reponseOcr", response);
+        const jsonPart = response.data.split("<br />")[1];
+        const parsedData = JSON.parse(jsonPart);
+        console.log(parsedData);
+        setOCRData(parsedData);
       } catch (error) {
         console.error("error:", error);
       }

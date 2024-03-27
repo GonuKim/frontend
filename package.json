@@ -16,6 +16,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc21",
     "embla-carousel-react": "^8.0.0-rc21",
     "flatpickr": "^4.6.13",
+    "framer-motion": "^11.0.20",
     "phaser": "^3.55.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",

@@ -1,0 +1,134 @@
+.main_container {
+  width: 100%;
+  height: 100vh;
+  background-color: #27282f;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info_bar_container {
+  width: 98%;
+  background-color: #1d1d1e;
+  box-shadow: 0 0 5px rgba(197, 197, 197, 0.2);
+  padding: 0.5%;
+  margin-top: 1%;
+  border-radius: 20px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.exit_btn_container {
+  z-index: 1;
+}
+.exit_icon {
+  margin-right: 0.5rem;
+}
+
+.title_container {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.item_main_wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column; /* 자식 요소들을 수직 정렬 */
+  justify-content: center;
+  align-items: center;
+}
+
+.card_and_next_btn_wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: row; /* 내부 요소를 가로로 정렬 */
+  justify-content: center;
+  align-items: center;
+}
+
+.card_container {
+  color: black;
+  font-weight: bold;
+  width: 50%;
+  height: 60vh;
+  background-color: #fafafa;
+  box-shadow: 0 0 10px rgba(160, 160, 160, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.top_wrap,
+.bottom_wrap {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.top_wrap {
+  border-bottom: 3px solid #e2e6ea;
+  font-size: 5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom_wrap {
+  position: relative;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 중앙 정렬 */
+  justify-content: center;
+  width: 100%;
+}
+
+.bottom_wrap_curtain {
+  position: absolute;
+  background-color: #006fff;
+  width: 100%;
+  height: 30vh;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.next_btn {
+  font-size: 4rem;
+  padding: 0;
+  margin-left: 2rem;
+  background: none;
+  border: none;
+}
+
+.next_btn:hover {
+  color: #8abdff;
+}
+
+.is_know_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.is_know_container button {
+  font-size: 2rem;
+  margin: 1rem;
+  padding: 2rem 4rem 2rem 4rem;
+  background-color: #006fff;
+}
+
+.happy_emoji,
+.tear_emoji {
+  font-size: 3rem;
+  margin-left: 1rem;
+}
