@@ -3,29 +3,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #212A3E;
+    background-color: #f5f5f7;
     width: 100vw;
     height: 100vh;
+    overflow: auto;
+    
 }
 
 .wrap__card {
     display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100vh;
 }
 
-.card__inner {
-    width: 700px; /* 카드 컨테이너의 너비 */
-    height: 700px; /* 카드 컨테이너의 높이 */
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 5px; /* 카드와의 간격을 위한 패딩 */
-    display: flex;
-    flex-wrap: wrap; /* 카드들이 줄 바꿈 되도록 설정 */
-    justify-content: space-around; /* 카드들 사이의 수평 간격 조정 */
-    align-content: space-around; /* 카드들 사이의 수직 간격 조정 */
-}
+
 
 .cards {
     display: flex;
@@ -34,33 +24,39 @@
     align-content: space-around;
     width: 100%;
     height: 100%;
+    padding-left: 8%;
+    padding-right: 8%;
 }
 
 .cards li {
-    width: calc((100% - 80px) / 4); /* 전체 너비에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
-    height: calc((100% - 80px) / 4); /* 전체 높이에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
-    border: 1px solid #ccc;
-    perspective: 1000px;
+    width: calc(22% - 2%); /* 전체 너비에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
+    height: 35vh; /* 전체 높이에서 카드 간의 간격을 뺀 후 4로 나눕니다 */
     transform-style: preserve-3d;
     position: relative;
-    margin: 10px; /* 카드 간의 간격 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1%; /* 카드 간의 간격 */
+    box-shadow: 0 0 10px rgba(111, 131, 234, 0.5);
+    background-color: #ffffff;
+
 }
 
-
-
+.view {
+    
+}
 
 .cards li .view {
     position: absolute;
-    background: rgba(0, 0, 255, 0.2);
-    padding: 10%;
     transition: transform 0.5s linear;
     backface-visibility: hidden;
-    width: 100%;
-    height: 100%;
     user-select: none;
     pointer-events: none;
     font-size: 35px; /* 여기에 글자 크기를 조정합니다 */
 }
+
+
+
 
 .cards li .view.front {
     z-index: 10;
@@ -69,6 +65,7 @@
 
 .cards li .view.back {
     transform: rotateY(180deg);
+    
 }
 
 .cards li.flip .view.front {
@@ -82,6 +79,9 @@
 .cards li.shake {
     animation: shake 0.35s ease-in-out;
 }
+
+
+
 
 @keyframes shake {
     0% { transform: translateX(0); }

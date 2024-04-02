@@ -40,7 +40,7 @@ function SocialCallback({ provider }: SocialCallbackProps) {
         },
       })
       .then((response) => {
-        setUser(response.data);
+        setUser(response.data.user);
         console.log("data: ", response.data);
         console.log("reftoken:", data.refresh_token);
         console.log("acctoken:", data.access_token);
@@ -60,7 +60,7 @@ function SocialCallback({ provider }: SocialCallbackProps) {
         {
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
+            "Accept": "application/json",
             "Access-Control-Allow-Origin": `http://localhost/:8000`,
             "Access-Control-Allow-Credentials": "true",
           },
@@ -69,6 +69,7 @@ function SocialCallback({ provider }: SocialCallbackProps) {
         }
       )
       .then((response) => {
+
         setLoading(false);
         setData(response.data);
         sessionStorage.setItem("accessToken", response.data.access_token || ""); // or provide a default value like 'defaultAccessToken'
