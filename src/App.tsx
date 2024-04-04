@@ -18,7 +18,9 @@ import SetListPage from "./views/SetListPage";
 import TypingPage from "./views/TypingPage";
 import FlipWordPage from "./views/FlipWordPage";
 import MemorizePage from "./views/Memorizepage";
-
+import CommunityPage from "./views/CommunityPage";
+import EditWordPage from "./views/EditWordPage";
+import GrammarPage from "./views/GrammerPage";
 // const CreateWordWrapper = () => (
 //   <DataProvider>
 //     <CreateWordPage />
@@ -62,9 +64,19 @@ function App() {
             }
           />
           <Route path="/set/:id" element={<WordCardPage />} />
+          <Route
+            path="/EditWord/:id"
+            element={
+              <DataProvider>
+                <EditWordPage />
+              </DataProvider>
+            }
+          />
           <Route path="/Memorize/:id" element={<MemorizePage />} />
           <Route path="/MySet" element={<SetListPage />} />
+          <Route path="/Community" element={<CommunityPage />} />
           <Route path="/FlipWord" element={<FlipWordPage />} />
+          <Route path="/Grammar" element={<GrammarPage />} />
         </Routes>
       </Router>
     </AuthProvider>

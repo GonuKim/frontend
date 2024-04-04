@@ -153,6 +153,7 @@
   margin-left: 2rem;
   background: none;
   border: none;
+  color: #ffffff;
 }
 
 .next_btn:hover {
@@ -170,6 +171,7 @@
   margin: 1rem;
   padding: 2rem 4rem 2rem 4rem;
   background-color: #006fff;
+  color: #ffffff;
 }
 
 .happy_emoji,

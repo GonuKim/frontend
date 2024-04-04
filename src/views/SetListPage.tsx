@@ -30,14 +30,14 @@ const SetListPage: React.FC = () => {
             },
           }
         );
-        console.log("response.data.data:::", response.data.data);
+        console.log("response.data.data:::", response.data);
 
         // API 응답에서 게시글 배열에 접근하여 상태 업데이트
         if (
           response.data.status === "Success" &&
-          Array.isArray(response.data.data.notes)
+          Array.isArray(response.data.notes)
         ) {
-          const receivedPosts: Post[] = response.data.data.notes.map(
+          const receivedPosts: Post[] = response.data.notes.map(
             (post: Post) => ({
               id: post.id, // id 값도 포함하여 매핑
               updated_at: post.updated_at,
@@ -65,6 +65,29 @@ const SetListPage: React.FC = () => {
     };
     getListData();
   }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시에만 함수가 실행되도록 합니다.
+
+  const deleteSet = async (id: number) => {
+    const isConfirmed = window.confirm("정말로 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      try {
+        const response = await instance.delete(`/api/vocabularyNote/${id}`);
+        console.log("response.data.data:::", response.data);
+        setPosts(posts.filter((post) => post.id !== id));
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+
+          if (axios.isAxiosError(error)) {
+            console.error("Error data:", error.response?.data);
+            console.error("Error status:", error.response?.status);
+          }
+        } else {
+          console.error("An unexpected error occurred");
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     console.log("Updated posts:", posts);
@@ -94,8 +117,16 @@ const SetListPage: React.FC = () => {
               <p>{new Date(post.updated_at).toLocaleDateString()}</p>
             </Link>
             <div className={styles.btn_container}>
-              <button className={styles.modify_btn}>수정</button>
-              <button className={styles.delete_btn}>삭제</button>
+              <Link to={`/EditWord/${post.id}`}>
+                <button className={styles.modify_btn}>수정</button>
+              </Link>
+
+              <button
+                className={styles.delete_btn}
+                onClick={() => deleteSet(post.id)}
+              >
+                삭제
+              </button>
             </div>
           </div>
         ))}

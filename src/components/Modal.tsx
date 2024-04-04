@@ -66,9 +66,9 @@ const Modal: React.FC<ModalProps & { type: string }> = ({
         console.log(response.data);
         // Excel 데이터를 전역 상태로 업데이트
         setParsedExcelData({
-          gana: response.data.gana,
-          kanji: response.data.kanji,
-          meaning: response.data.meaning,
+          gana: response.data.note.gana,
+          kanji: response.data.note.kanji,
+          meaning: response.data.note.meaning,
         });
       } catch (error) {
         if (error instanceof Error) {
