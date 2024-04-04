@@ -92,7 +92,7 @@ const SignIn = () => {
     <div className={styles.wrap}>
       <div className={styles.main_wrap}>
         <div className={styles.textContainer}>
-          <div className={styles.h2}>
+          <div className={styles.logo_wrap}>
             <img src={logo} alt="" />
           </div>
           
@@ -121,36 +121,40 @@ const SignIn = () => {
           </div>
         </div>
         
-        <div>
+        <div className={styles.btn_wrap}>
           <button className={styles.circle} onClick={handleSubmit}>
             로그인
           </button>
         </div>
 
-      
-<div className={styles.social_link}>
+           <div  className={styles.social_link}>
 
-<div className={styles.social_items}>
-  <a href={loginUrl} onClick={() => handle_social_login('google')}> 
-<img className={styles.socialIcon} src={socialGoogle} alt="" /></a>
-</div>
+              <div className={styles.social_text_container}> 
+            <p className={styles.social_text} >소셜 로그인</p>
+            </div>
+              <div className={styles.social_container}>
+            <div className={styles.social_items}>
+              <a href={loginUrl} onClick={() => handle_social_login('google')}> 
+            <img className={styles.socialIcon} src={socialGoogle} alt="" /></a>
+            </div>
 
-<div className={styles.social_items}>
-  <a href={loginUrl} onClick={() => handle_social_login('kakao')}> 
-<img className={styles.socialIcon} src={socialKakao} alt="" /></a>
-</div>
+            <div className={styles.social_items}>
+              <a href={loginUrl} onClick={() => handle_social_login('kakao')}> 
+            <img className={styles.socialIcon} src={socialKakao} alt="" /></a>
+            </div>
 
-<div className={styles.social_items}>
-  <a href={loginUrl} onClick={() => handle_social_login('naver')}> 
-<img className={styles.socialIcon} src={socialNaver} alt="" /></a>
-</div>
+            <div className={styles.social_items}>
+              <a href={loginUrl} onClick={() => handle_social_login('naver')}> 
+            <img className={styles.socialIcon} src={socialNaver} alt="" /></a>
+            </div>
 
-<div className={styles.social_items}>
-   <a href={loginUrl} onClick={() => handle_social_login('github')}> 
-<img className={styles.socialIcon} src={socialGithub} alt="" /></a>
-</div>
-
-</div>
+            <div className={styles.social_items}>
+              <a href={loginUrl} onClick={() => handle_social_login('github')}> 
+            <img className={styles.socialIcon} src={socialGithub} alt="" /></a>
+            </div>
+            </div>
+            </div>
+       
       </div>
     </div>
   );
