@@ -26,15 +26,11 @@ const WordCardPage: React.FC = () => {
     const getSetData = async () => {
       setLoading(true);
 
-      const accessToken = sessionStorage.getItem("accessToken");
       try {
-        const response = await instance.get(`api/vocabularyNote/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await instance.get(`api/vocabularyNote/${id}`);
+        console.log(response.data);
         if (response.data.status === "Success") {
-          const data = response.data.data;
+          const data = response.data.note;
 
           const parsedKanji = JSON.parse(data.kanji) || [];
           const parsedMeaning = JSON.parse(data.meaning) || [];

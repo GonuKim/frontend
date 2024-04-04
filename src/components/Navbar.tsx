@@ -71,6 +71,14 @@ const MainNavbar: React.FC = () => {
             >
               문제풀기
             </NavDropdown.Item>
+
+            <NavDropdown.Item
+              className={styles.dropdown_item}
+              as={Link}
+              to="/Grammar"
+            >
+              문법
+            </NavDropdown.Item>
           </NavDropdown>
 
           <NavDropdown title="단어" id="basic-nav-dropdown">
@@ -96,7 +104,8 @@ const MainNavbar: React.FC = () => {
             </NavDropdown.Item>
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.2"
+              as={Link}
+              to="/community"
             >
               단어창고
             </NavDropdown.Item>

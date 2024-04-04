@@ -7,16 +7,21 @@ import Modal from "../components/Modal";
 import instance from "../api/axios";
 import axios from "axios";
 import { DataContext } from "../contexts/DataContext"; // useData 훅 import
+import LoadingBar from "../components/LoadingBar";
+import { useParams } from "react-router-dom";
 
 interface WordsState {
+  is_public: boolean;
   title: string;
   kanji: string[];
   meaning: string[];
   gana: string[];
 }
 
-const CreateWord: React.FC = () => {
+const EditWordPage: React.FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const { OCRData, parsedExcelData } = useContext(DataContext) || {};
   const { clearOCRData, clearParsedExcelData } = useContext(DataContext) || {};
@@ -28,6 +33,7 @@ const CreateWord: React.FC = () => {
   }, [clearOCRData, clearParsedExcelData]);
 
   const initialWords: WordsState = {
+    is_public: false,
     title: "",
     kanji: Array(10).fill(""),
     meaning: Array(10).fill(""),
@@ -35,6 +41,53 @@ const CreateWord: React.FC = () => {
   };
   const [words, setWords] = useState<WordsState>(initialWords);
   const [externalData, setExternalData] = useState<WordsState | null>(null);
+
+  // 페이지 이동 시 단어장 데이터 불러오기
+  useEffect(() => {
+    const getSetData = async () => {
+      setLoading(true);
+
+      try {
+        const response = await instance.get(`api/vocabularyNote/${id}`);
+        console.log(response.data);
+        if (response.data.status === "Success") {
+          const data = response.data.note;
+
+          const parsedKanji = JSON.parse(data.kanji) || [];
+          const parsedMeaning = JSON.parse(data.meaning) || [];
+          const parsedGana = JSON.parse(data.gana) || [];
+          //나중에 지우기 콘솔로그
+          console.log(parsedMeaning);
+          console.log(parsedKanji);
+          console.log(parsedGana);
+          //////////////////////
+          const parsedWords = {
+            title: data.title,
+            gana: parsedGana,
+            kanji: parsedKanji,
+            meaning: parsedMeaning,
+            is_public: false,
+          };
+
+          setWords(parsedWords);
+          //나중에 지우기 콘솔로그
+          console.log(parsedWords);
+
+          console.log("setWords", words);
+          //////////////////////
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Error data:", error.response?.data);
+          console.error("Error status:", error.response?.status);
+        } else {
+          console.error("An unexpected error occurred");
+        }
+      }
+      setLoading(false);
+    };
+    getSetData();
+  }, [id]);
 
   // 빈 열 검사 기능..
   const isDataNotEmpty = (
@@ -90,6 +143,7 @@ const CreateWord: React.FC = () => {
         kanji: convertNullToEmptyString(OCRData?.kanji || []),
         meaning: convertNullToEmptyString(OCRData?.meaning || []),
         gana: convertNullToEmptyString(OCRData?.gana || []),
+        is_public: false,
       };
     } else if (isDataNotEmpty(parsedExcelData)) {
       newData = {
@@ -97,6 +151,7 @@ const CreateWord: React.FC = () => {
         kanji: convertNullToEmptyString(parsedExcelData?.kanji || []),
         meaning: convertNullToEmptyString(parsedExcelData?.meaning || []),
         gana: convertNullToEmptyString(parsedExcelData?.gana || []),
+        is_public: false,
       };
     }
 
@@ -163,7 +218,6 @@ const CreateWord: React.FC = () => {
 
   // 단어장 저장 api
   const sendWordData = async () => {
-    const accessToken = sessionStorage.getItem("accessToken");
     filterEmptyWords();
 
     // 단어제목이나 단어가 비어있을 시 저장을 막고 경고창.
@@ -175,14 +229,10 @@ const CreateWord: React.FC = () => {
     console.log("words=::", words);
     try {
       console.log("words:::");
-      const response = await instance.post("/api/vocabularyNote", words, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await instance.patch(`/api/vocabularyNote/${id}`, words);
       console.log("Data sent successfully:", response.data);
-      alert("저장되었습니다.");
-      navigate("/MySet");
+      alert("수정되었습니다.");
+      navigate(`/set/${id}`);
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error message:", error.message);
@@ -209,6 +259,8 @@ const CreateWord: React.FC = () => {
 
   return (
     <div className={styles.main_wrap}>
+      {loading && <LoadingBar />}
+
       <div className={styles.set_name_wrap}>
         <div className={styles.set_name_input_wrap}>
           <input
@@ -289,4 +341,4 @@ const CreateWord: React.FC = () => {
   );
 };
 
-export default CreateWord;
+export default EditWordPage;
