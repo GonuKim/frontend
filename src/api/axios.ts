@@ -1,10 +1,18 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "http://localhost:8000",
-  withXSRFToken: true,
-  withCredentials: true,
-});
+const setConfig = () => {
+  const accessToken = sessionStorage.getItem("accessToken");
+  return {
+    baseURL: "http://localhost:8000",
+    withXSRFToken: true,
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+};
+
+const instance = axios.create(setConfig());
 const refreshToken = sessionStorage.getItem("refreshToken");
 
 // refreshToken을 사용하여 새로운 토큰을 요청하는 함수

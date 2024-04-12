@@ -1,5 +1,5 @@
 .all_warp {
-  background-color: #ffff ;
+  background-color: #f5f5f7 ;
 }
 .wrap{
   display: flex;
@@ -74,13 +74,13 @@
   padding: 12px; 
   font-weight: bold;
   border-radius: 10px; 
-  background-color: #4A77CB;
+  background-color: #006fff;
   color: white; 
   border: solid #4A77CB;; 
   font-size: 20px;
   cursor: pointer; 
   outline: none; 
-  text-shadow: 1px 2px 0px #000000;
+  box-shadow: 0 0 10px rgba(125, 164, 231, 0.5);
   
 }
 
