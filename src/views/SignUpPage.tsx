@@ -20,6 +20,15 @@ const SignUp = () => {
     phone: "",
     birthday: "",
   });
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+    password_confirmation: "",
+    nickname: "",
+    phone: "",
+    birthday: "",
+  });
+  
 
   useEffect(() => {
     const datePicker = flatpickr("#datepicker", {
@@ -31,6 +40,7 @@ const SignUp = () => {
           ...prevState,
           birthday: dateStr, // 선택한 날짜를 formData의 birthday 필드에 저장합니다.
         }));
+        validate();
       },
     });
   }, []);
@@ -41,9 +51,44 @@ const SignUp = () => {
       ...prevState,
       [name]: value,
     }));
-    console.log(formData);
+    validate();
   };
-
+  const validate = () => {
+    let errors = {
+      email: "",
+      password: "",
+      password_confirmation: "",
+      nickname: "",
+      phone: "",
+      birthday: "",
+    };
+    
+    if (!formData.email) {
+      errors.email = "이메일은 필수입니다.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "유효한 이메일 주소를 입력하세요.";
+    }
+    if (!formData.password) {
+      errors.password = "비밀번호는 필수입니다.";
+    } else if (formData.password.length < 6) {
+      errors.password = "비밀번호는 6자 이상이어야 합니다.";
+    }
+    if (formData.password !== formData.password_confirmation) {
+      errors.password_confirmation = "비밀번호가 일치하지 않습니다.";
+    }
+    if (!formData.nickname) {
+      errors.nickname = "닉네임은 필수입니다.";
+    }
+    if (!formData.phone) {
+      errors.phone = "휴대전화 번호는 필수입니다.";
+    }
+    if (!formData.birthday) {
+      errors.birthday = "생년월일을 선택하세요.";
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
   const customAxios = axios.create({
     baseURL: "http://localhost:8000/",
     withXSRFToken: true,
@@ -84,6 +129,7 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                 />
+                 {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
               </div>
 
               <h2 className={styles.h2}>비밀번호</h2>
@@ -96,6 +142,7 @@ const SignUp = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                 />
+                {formErrors.password && <p style={{ color: "red" }}>{formErrors.password}</p>}
               </div>
 
               <h2 className={styles.h2}>비밀번호 확인</h2>
@@ -108,6 +155,7 @@ const SignUp = () => {
                   value={formData.password_confirmation}
                   onChange={handleInputChange}
                 />
+                {formErrors.password_confirmation && <p style={{ color: "red" }}>{formErrors.password_confirmation}</p>}
               </div>
 
               <h2 className={styles.h2}>닉네임</h2>
@@ -120,6 +168,7 @@ const SignUp = () => {
                   value={formData.nickname}
                   onChange={handleInputChange}
                 />
+                 {formErrors.nickname && <p style={{ color: "red" }}>{formErrors.nickname}</p>}
               </div>
 
               <h2 className={styles.h2}>생년월일</h2>
@@ -131,6 +180,7 @@ const SignUp = () => {
                   placeholder="생년월일 선택"
                   name="birthday"
                 />
+                {formErrors.birthday && <p style={{ color: "red" }}>{formErrors.birthday}</p>}
               </div>
 
               <h2 className={styles.h2}>휴대전화 ( '-' 제외)</h2>
@@ -143,6 +193,7 @@ const SignUp = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
+                 {formErrors.phone && <p style={{ color: "red" }}>{formErrors.phone}</p>}
               </div>
 
               <div>

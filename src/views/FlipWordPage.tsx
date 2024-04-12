@@ -29,7 +29,7 @@ const FlipWordPage: React.FC = () => {
         },
       });
 
-      const data = response.data.data.notes;
+      const data = response.data.notes;
       const kanji: string[] = JSON.parse(data[0].kanji) || [];
       const meaning: string[] = JSON.parse(data[0].meaning) || [];
 

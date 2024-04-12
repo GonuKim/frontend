@@ -13,10 +13,16 @@ const SignIn = () => {
   const [loginUrl, setLoginUrl] = useState();
   const [provider, setProvider] = useState("");
 
+
   const customAxios = axios.create({
     baseURL: "http://localhost:8000/",
     withXSRFToken: true,
     withCredentials: true,
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
   });
 
   const [formData, setFormData] = useState({
@@ -62,7 +68,27 @@ const SignIn = () => {
       ...prevState,
       [name]: value,
     }));
-    console.log(formData);
+    validate(e);
+  };
+
+  const validate = (e: FormEvent) => {
+    let errors = {
+      email: "",
+      password: "",
+    };
+
+    if (!formData.email) {
+      errors.email = "이메일은 필수입니다.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "유효한 이메일 주소를 입력하세요.";
+    }
+    if(formData.password.length <6) {
+      errors.password = "비밀번호는 7자 이상이어야 합니다."
+    }
+    setFormErrors(errors);
+    e.preventDefault()
+    // return Object.keys(errors).length === 0;
+    
   };
   const handleSubmit = async (e: FormEvent) => {
     try {
@@ -71,7 +97,8 @@ const SignIn = () => {
       console.log(response);
       console.log(response.data);
 
-      const { access_token, refresh_token } = response.data;
+      if(response.data.message === "Login success") {
+        const { access_token, refresh_token } = response.data;
 
       setAccessToken(access_token);
       setRefreshToken(refresh_token);
@@ -81,8 +108,16 @@ const SignIn = () => {
 
       alert("로그인에 성공했습니다.");
       window.location.href = "/Main"; // 이동할 페이지
+      } else {
+        alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+      }
+
+      
     } catch (error) {
       console.error("로그인 중 오류 발생:", error);
+      if (error instanceof Error) {
+        alert("Login error");
+      }
     }
   };
 
@@ -106,6 +141,7 @@ const SignIn = () => {
               value={formData.email}
               onChange={handleInputChange}
             />
+             {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
           </div>
 
           <h2 className={styles.h2}>비밀번호</h2>
@@ -119,6 +155,7 @@ const SignIn = () => {
               onChange={handleInputChange}
             />
           </div>
+          {formErrors.password && <p style={{ color: "red" }}>{formErrors.password}</p>}
         </div>
         
         <div className={styles.btn_wrap}>
