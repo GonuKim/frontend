@@ -61,14 +61,12 @@ const MainNavbar: React.FC = () => {
           <NavDropdown title="학습" id="basic-nav-dropdown">
             <NavDropdown.Item
               className={styles.dropdown_item}
-              href="#action/3.1"
+              as={Link}
+              to="/Pronunciation"
             >
               발음평가
             </NavDropdown.Item>
-            <NavDropdown.Item
-              className={styles.dropdown_item}
-              href="#action/3.2"
-            >
+            <NavDropdown.Item className={styles.dropdown_item}>
               문제풀기
             </NavDropdown.Item>
 

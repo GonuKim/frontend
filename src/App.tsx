@@ -21,6 +21,7 @@ import MemorizePage from "./views/Memorizepage";
 import CommunityPage from "./views/CommunityPage";
 import EditWordPage from "./views/EditWordPage";
 import GrammarPage from "./views/GrammerPage";
+import PronunciationPage from "./views/PronunciationPage";
 // const CreateWordWrapper = () => (
 //   <DataProvider>
 //     <CreateWordPage />
@@ -76,7 +77,9 @@ function App() {
           <Route path="/MySet" element={<SetListPage />} />
           <Route path="/Community" element={<CommunityPage />} />
           <Route path="/FlipWord" element={<FlipWordPage />} />
+
           <Route path="/Grammar" element={<GrammarPage />} />
+          <Route path="/Pronunciation" element={<PronunciationPage />} />
         </Routes>
       </Router>
     </AuthProvider>

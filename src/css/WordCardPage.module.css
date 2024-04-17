@@ -68,9 +68,10 @@
 }
 
 .card_wrap {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
   width: calc(33% - 2%); /* 한 줄에 3개씩 배치, 20px은 마진 고려 */
+  height: 15vh;
   background-color: #ffffff;
   color: black;
   box-shadow: 0 0 10px rgba(0, 99, 255, 0.3);

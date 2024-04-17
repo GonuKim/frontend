@@ -22,50 +22,36 @@ import necromancerIdle from "../img/character/necromancer/necromancerIdle.png";
 import necromancerTakeDmg from "../img/character/necromancer/necromancerTakeDmg.png";
 import necormancerAtk from "../img/character/necromancer/necromancerAtk.png";
 import necromancerDeath from "../img/character/necromancer/necromancerDeath.png";
+import instance from "../../../../api/axios";
+import axios from "axios";
 
 interface WordData {
   word: string;
   mean: string;
 }
 
+interface IncorrectWords {
+  score: number;
+  kanji: string[];
+  meaning: string[];
+  gana: string[];
+  level_id: number;
+  category: string;
+}
+
 export default class FoggyStageScene extends Phaser.Scene {
-  private wordData: WordData[] = [
-    { word: "りんご", mean: "사과" },
-    { word: "猫", mean: "고양이" },
-    { word: "犬", mean: "개" },
-    { word: "車", mean: "차" },
-    { word: "時計", mean: "시계" },
-    { word: "図書館", mean: "도서관" },
-    { word: "自動販売機", mean: "자동판매기" },
-    { word: "交通信号", mean: "교통 신호등" },
-    { word: "地下鉄", mean: "지하철" },
-    { word: "電子レンジ", mean: "전자레인지" },
-    { word: "空気清浄機", mean: "공기청정기" },
-    { word: "掃除機", mean: "청소기" },
-    { word: "冷蔵庫", mean: "냉장고" },
-    { word: "洗濯機", mean: "세탁기" },
-    { word: "エアコン", mean: "에어컨" },
-    { word: "コンピュータ", mean: "컴퓨터" },
-    { word: "スマートフォン", mean: "스마트폰" },
-    { word: "ヘッドフォン", mean: "헤드폰" },
-    { word: "テレビ", mean: "텔레비전" },
-    { word: "カメラ", mean: "카메라" },
-    { word: "冷凍庫", mean: "냉동고" },
-    { word: "電気ポット", mean: "전기 포트" },
-    { word: "食器洗い機", mean: "식기세척기" },
-    { word: "電気スタンド", mean: "전기 스탠드" },
-    { word: "机", mean: "책상" },
-    { word: "椅子", mean: "의자" },
-    { word: "ベッド", mean: "침대" },
-    { word: "窓", mean: "창문" },
-    { word: "ドア", mean: "문" },
-    { word: "本棚", mean: "책장" },
-    { word: "ソファ", mean: "소파" },
-    { word: "カーテン", mean: "커튼" },
-    { word: "絨毯", mean: "카페트" },
-    { word: "鏡", mean: "거울" },
-    { word: "洗面台", mean: "세면대" },
-  ];
+  private killScore: number = 0;
+  private killScoreText!: Phaser.GameObjects.Text;
+
+  private wordData: WordData[] = [];
+  private incorrectWords: IncorrectWords = {
+    score: 0,
+    level_id: 7,
+    category: "WorldOfWords",
+    kanji: [],
+    meaning: [],
+    gana: [],
+  }; // 틀린 단어들 저장할 배열
   private questionTexts: Phaser.GameObjects.Text[] = []; // 문제와 선택지 텍스트 객체를 저장할 배열
   private choiceTexts: Phaser.GameObjects.Text[] = []; // 선택지 텍스트 객체를 저장할 배열
   private choices: string[] = [];
@@ -86,11 +72,14 @@ export default class FoggyStageScene extends Phaser.Scene {
   private necromancerHpBar!: Phaser.GameObjects.Image;
   private maxNecromancerHp: number = 100;
 
-  private killScore: number = 0;
-  private killScoreText!: Phaser.GameObjects.Text;
+  selectedNote: any;
 
   constructor() {
     super("foggy-scene");
+  }
+
+  init(data: { selectedNote: any }) {
+    this.selectedNote = data.selectedNote;
   }
 
   preload() {
@@ -150,6 +139,25 @@ export default class FoggyStageScene extends Phaser.Scene {
   }
 
   create() {
+    console.log("notedata::", this.selectedNote);
+
+    if (
+      this.selectedNote &&
+      this.selectedNote.kanji &&
+      this.selectedNote.meaning
+    ) {
+      this.wordData = this.selectedNote.kanji.map(
+        (kanji: string, index: number) => ({
+          word: kanji || this.selectedNote.gana[index],
+          mean: this.selectedNote.meaning[index],
+        })
+      );
+    } else {
+      // selectedNote가 유효하지 않은 경우 또는 필요한 데이터가 없는 경우
+      // wordData를 기본값으로 초기화하거나 오류 처리를 수행할 수 있습니다.
+      console.error("Invalid selectedNote data");
+    }
+
     this.questionTexts = []; // 문제와 선택지 텍스트 객체를 저장할 배열 초기화
     this.choiceTexts = []; // 선택지 텍스트 객체를 저장할 배열 초기화
     this.choices = []; // 선택지 문자열 배열 초기화
@@ -450,7 +458,7 @@ export default class FoggyStageScene extends Phaser.Scene {
       // 선택지 텍스트 클릭 이벤트 추가
       choiceText.on("pointerdown", () => {
         button.setScale(1);
-        this.checkAnswer(choice, randomWordObj.mean);
+        this.checkAnswer(choice, randomWordObj.mean, randomWordObj);
       });
     });
 
@@ -464,6 +472,7 @@ export default class FoggyStageScene extends Phaser.Scene {
         )
         .setInteractive();
       gameOverImage.on("pointerdown", () => {
+        this.sendScoreAndWords();
         // 'welcomeScene'으로 장면 전환
         gameOverImage.destroy();
         this.witchHp = 100;
@@ -494,10 +503,11 @@ export default class FoggyStageScene extends Phaser.Scene {
     this.buttons = []; // 버튼 배열을 비움
   }
 
-  checkAnswer(choice: string, correctAnswer: string) {
+  checkAnswer(choice: string, correctAnswer: string, wordObj: WordData) {
     if (choice === correctAnswer) {
       console.log("정답!");
       this.necromancerHp -= 25;
+      this.incorrectWords.score = this.killScore;
       console.log(`necormancer HP: ${this.necromancerHp}`);
       this.witch.play("charge", true).once("animationcomplete-charge", () => {
         this.witch.play("atk").once("animationcomplete-atk", () => {
@@ -532,6 +542,18 @@ export default class FoggyStageScene extends Phaser.Scene {
       });
     } else {
       console.log("오답!");
+      // 틀린 단어 정보 추가
+      this.incorrectWords.kanji.push(
+        wordObj.word ||
+          this.selectedNote.gana[this.selectedNote.kanji.indexOf(wordObj.word)]
+      );
+      this.incorrectWords.meaning.push(wordObj.mean);
+      this.incorrectWords.gana.push(
+        this.selectedNote.gana[this.selectedNote.kanji.indexOf(wordObj.word)]
+      );
+      this.incorrectWords.score = this.killScore;
+
+      console.log("incorrectWords:::", this.incorrectWords);
       this.witchHp -= 25;
       console.log(`Witch HP: ${this.witchHp}`);
       this.necromancer
@@ -543,7 +565,6 @@ export default class FoggyStageScene extends Phaser.Scene {
             this.necromancer.play("necromancerIdle");
             if (this.witchHp <= 0) {
               this.choiceTexts.forEach((text) => text.disableInteractive());
-
               console.log("Witch defeated!");
               this.witch.play("death");
               // 화면을 페이드 아웃
@@ -596,6 +617,31 @@ export default class FoggyStageScene extends Phaser.Scene {
       [],
       this
     );
+  }
+
+  async sendScoreAndWords() {
+    const accessToken = sessionStorage.getItem("accessToken");
+    const data = this.incorrectWords;
+    try {
+      console.log("sendScoreAndWords:::", data);
+      const response = await instance.post("/api/worldOfWords", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("Data sent successfully:", response.data);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+
+        if (axios.isAxiosError(error)) {
+          console.error("Error data:", error.response?.data);
+          console.error("Error status:", error.response?.status);
+        }
+      } else {
+        console.error("An unexpected error occurred");
+      }
+    }
   }
 
   update() {

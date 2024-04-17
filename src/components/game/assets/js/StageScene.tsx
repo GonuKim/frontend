@@ -3,10 +3,25 @@ import background from "../img/forest2.png";
 import stageMenuImg from "../img/stageMenu.png";
 import descriptionImg from "../img/description.png";
 import foggyDescImg from "../img/foggyDesc.png";
+import instance from "../../../../api/axios";
+
+interface Note {
+  id: number;
+  user_id: number;
+  level_id: number;
+  title: string;
+  gana: string; // 실제 구조에 맞게 타입을 조정해주세요.
+  // 추가 필드...
+}
 
 export default class StageScene extends Phaser.Scene {
+  notes: Note[];
+  selectedNote: Note | null; // 선택된 노트를 저장할 변수
+
   constructor() {
     super("stage-scene");
+    this.notes = [];
+    this.selectedNote = null; // 초기에는 선택된 노트가 없음
   }
 
   preload() {
@@ -27,7 +42,56 @@ export default class StageScene extends Phaser.Scene {
     image.setOrigin(0, 0);
     image.setScale(1);
 
-    // 이미지 크기 조정 후 위치 조정
+    // 단어장 데이터 받아오기
+    instance
+      .get("/api/vocabularyNote")
+      .then((response) => {
+        // 데이터 불러오기 성공
+        console.log("데이터:", response.data);
+
+        this.notes = response.data.notes.map(
+          (note: { gana: string; meaning: string; kanji: string }) => ({
+            ...note,
+            gana: JSON.parse(note.gana),
+            meaning: note.meaning ? JSON.parse(note.meaning) : null,
+            kanji: note.kanji ? JSON.parse(note.kanji) : null,
+          })
+        );
+        console.log("파싱된 데이터:", this.notes);
+      })
+      .catch((error) => {
+        // 데이터 불러오기 실패
+        console.error("데이터 불러오기 오류:", error);
+      });
+
+    // 단어 선택 팝업 초기화 (기본적으로는 숨김 상태)
+    const wordSelectPopup = this.add
+      .container(centerX, centerY)
+      .setVisible(false);
+    const popupBackground = this.add
+      .graphics()
+      .fillStyle(0xffffff, 0.8)
+      .fillRoundedRect(-150, -200, 300, 400, 20);
+    wordSelectPopup.add(popupBackground);
+
+    // 단어 목록 표시
+    const wordTextStyle = { font: "18px Arial", fill: "#000" };
+    const yOffset = -180; // 첫 번째 단어의 y 위치
+
+    // 단어 선택 로직 (가상 코드)
+    const selectWord = (word: string) => {
+      console.log("Selected word:", word);
+      // 여기에 단어 선택 시 필요한 로직 추가
+    };
+
+    // 단어 목록을 동적으로 생성
+    this.notes.forEach((note, index) => {
+      const wordText = this.add
+        .text(-140, yOffset + index * 40, note.title, wordTextStyle)
+        .setInteractive();
+      wordText.on("pointerdown", () => selectWord(note.title));
+      wordSelectPopup.add(wordText);
+    });
 
     // 스테이지 메뉴
     const stageMenu = this.add
@@ -58,6 +122,7 @@ export default class StageScene extends Phaser.Scene {
         color: "#ffffff",
       })
       .setOrigin(0.3, 0.1)
+
       .setVisible(false);
 
     stages.forEach((stage, index) => {
@@ -97,11 +162,8 @@ export default class StageScene extends Phaser.Scene {
         console.log(`스테이지 ${index + 1} 선택됨`);
         // 해당 스테이지 로딩 로직
         if (index === 0) {
-          this.cameras.main.fadeOut(1000, 0, 0, 0);
-          this.cameras.main.once("camerafadeoutcomplete", () => {
-            this.sound.stopByKey("mainBgm");
-            this.scene.start("foggy-scene");
-          });
+          //모달
+          this.showWordSelectionModal();
         }
       });
     });
@@ -124,5 +186,66 @@ export default class StageScene extends Phaser.Scene {
     // 플레이어와 땅 사이의 충돌 처리
   }
 
+  showWordSelectionModal() {
+    // 모달 배경
+    const modalBackground = this.add
+      .graphics({ fillStyle: { color: 0x000000, alpha: 0.5 } })
+      .setInteractive(
+        new Phaser.Geom.Rectangle(
+          0,
+          0,
+          this.cameras.main.width,
+          this.cameras.main.height
+        ),
+        Phaser.Geom.Rectangle.Contains
+      );
+    modalBackground.fillRect(
+      0,
+      0,
+      this.cameras.main.width,
+      this.cameras.main.height
+    );
+
+    modalBackground.on("pointerdown", () => {
+      // 모달 배경을 클릭해도 아무 일도 일어나지 않음
+    });
+
+    // 모달 본체
+    const modalWidth = 400;
+    const modalHeight = 300;
+    const modalX = (this.cameras.main.width - modalWidth) / 2;
+    const modalY = (this.cameras.main.height - modalHeight) / 2;
+    const modal = this.add.graphics({ fillStyle: { color: 0x222222 } });
+    modal.fillRect(modalX, modalY, modalWidth, modalHeight);
+
+    // 단어장 목록 표시
+    const textOffsetX = modalX + 20;
+    const textOffsetY = modalY + 20;
+    const textStepY = 30;
+    let currentY = textOffsetY;
+    this.notes.forEach((note) => {
+      const wordText = this.add
+        .text(textOffsetX, currentY, note.title, {
+          font: "16px Arial",
+          color: "#FFFFFF",
+        })
+        .setInteractive();
+      wordText.on("pointerdown", () => {
+        this.selectedNote = note;
+        modalBackground.destroy();
+        modal.destroy();
+        wordText.destroy();
+
+        // 선택된 단어장을 가지고 씬 전환
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.once("camerafadeoutcomplete", () => {
+          this.sound.stopByKey("mainBgm");
+          // 선택한 단어장 정보를 전달하며 씬 시작
+          this.scene.start("foggy-scene", { selectedNote: this.selectedNote });
+        });
+      });
+      currentY += textStepY;
+    });
+  }
   update() {}
 }
