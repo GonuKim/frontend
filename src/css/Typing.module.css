@@ -55,14 +55,14 @@
 .grade_container {
   display: flex;
   justify-content: space-around;
-  width: 30%;
+  width: 50%;
 }
 
 .select_grade_wrap {
   width: 90%;
   display: flex;
   text-align: center;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   border-radius: 15px;
   padding: 1% 0% 1% 0%;
@@ -82,7 +82,7 @@
   border-width: 5px; /* 테두리 두께 */
   border-color: #f5f5f5; /* 테두리 색상 */
   color: black;
-  width: 40%;
+  width: 30%;
 }
 
 .stats {

@@ -7,6 +7,9 @@ import { FiCheckSquare } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { keyRows } from "../constants/typing";
 import { getSentences } from "../api/typing";
+import { uploadUserText } from "../api/typinguser";
+import { getUserSentences } from "../api/typingetuser";
+import UserTypingUpload from "../components/UserTypingUpload";
 
 const calculateCPM = (text: string, secs: number) => text.length / (secs / 60);
 
@@ -22,6 +25,10 @@ const TypingPage: React.FC = () => {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [sentences, setSentences] = useState<string>("");
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
+  const [inputModal, setInputModal] = useState<boolean>(false);
+  const [allSentences, setAllSentences] = useState<string[]>([]);
+  const [userSentences, setUserSentences] = useState<string[]>([]);
+  const [defaultSentences, setDefaultSentences] = useState<string[]>([]);
 
   const fns = {
     // 타수 계산
@@ -50,18 +57,69 @@ const TypingPage: React.FC = () => {
       return elapsedTimeInSeconds;
     },
     // 문장 업데이트
-    fetchSentences: async () => {
+
+    // 유저 문장 조회
+    fetchUserSentences: async () => {
+      try {
+        const userSentences = await getUserSentences();
+        console.log("User sentences:", userSentences);
+        setAllSentences(userSentences);
+
+        // 여기서 유저가 업로드한 문장을 상태에 설정하거나 다른 처리를 할 수 있습니다.
+      } catch (error) {
+        console.error("Error fetching user sentences:", error);
+      }
+    },
+  };
+
+  // 유저문장 입력 모달창 오픈
+  const inputModalHandler = (grade: string) => {
+    if (grade === "문장 추가") {
+      setInputModal(true);
+    } else if (grade === "유저 문장") {
+      setAllSentences(userSentences);
+      randomIndex();
+    } else if (grade === "기본 문장") {
+      setAllSentences(defaultSentences);
+      randomIndex(); // 무작위 문장 선택
+    }
+  };
+
+  useEffect(() => {
+    const fetchSentences = async () => {
       try {
         const sentences = await getSentences();
+        const userSentences = await getUserSentences();
+        console.log("sentences:", sentences);
+        console.log("userSentences:", userSentences);
 
-        const randomIndex = Math.floor(Math.random() * sentences.length);
-        const selectedSentence = sentences[randomIndex];
+        setDefaultSentences(sentences);
+        setUserSentences(userSentences);
+        // const selectedUserSentence = userSentences[randomIndex];
         //   문장을 JSX로 변환하여 상태에 설정
-        setSentences(selectedSentence);
+        // setSentences(selectedUserSentence);
       } catch (error) {
         console.error("Error fetching sentences:", error);
       }
-    },
+    };
+    fetchSentences();
+  }, []);
+  //문장 랜덤 인덱스
+  const randomIndex = () => {
+    if (allSentences.length > 0) {
+      const random = Math.floor(Math.random() * allSentences.length);
+      const selectedSentence = allSentences[random];
+      setSentences(selectedSentence);
+    }
+  };
+
+  useEffect(() => {}, [allSentences]);
+
+  // 파일 업로드 완료 후 실행되는 콜백 함수
+  const handleFileUploadComplete = () => {
+    // 여기서 추가적인 처리를 할 수 있다.
+    // 예: 문장 조회 함수 호출
+    fns.fetchUserSentences();
   };
 
   const handler = {
@@ -88,7 +146,7 @@ const TypingPage: React.FC = () => {
           // 타이핑 관련 계산 및 초기화 로직
           fns.calculateAccuracy();
           fns.calculateCpm();
-          fns.fetchSentences();
+          randomIndex();
         } else if (e.key === "Backspace") {
           setTypedText((p) => p.slice(1));
         } else {
@@ -136,10 +194,6 @@ const TypingPage: React.FC = () => {
   useEffect(fns.calculateCpm, [typedText, elapsedTime]);
 
   useEffect(() => {
-    fns.fetchSentences();
-  }, []);
-
-  useEffect(() => {
     if (showModal) return;
     setInputText(""); // 입력 필드 초기화
     setTypedText(""); // 입력된 텍스트 초기화
@@ -155,10 +209,10 @@ const TypingPage: React.FC = () => {
         <div className={styles.list_container}>
           <div className={styles.grade_container}>
             <div className={styles.select_grade_wrap}>
-              {["기본 문장", "유저 문장"].map((grade, index) => (
+              {["기본 문장", "유저 문장", "문장 추가"].map((grade, index) => (
                 <motion.div
                   key={index}
-                  onClick={handler.grade.set}
+                  onClick={() => inputModalHandler(grade)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   style={{
@@ -264,6 +318,9 @@ const TypingPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Input Modal */}
+      {inputModal ? <UserTypingUpload data={setInputModal} /> : null}
     </div>
   );
 };
