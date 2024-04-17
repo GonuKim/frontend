@@ -106,10 +106,9 @@ const Modal: React.FC<ModalProps & { type: string }> = ({
         );
         // OCR 데이터를 전역 상태로 업데이트
         console.log("reponseOcr", response);
-        const jsonPart = response.data.split("<br />")[1];
-        const parsedData = JSON.parse(jsonPart);
-        console.log(parsedData);
-        setOCRData(parsedData);
+        // const jsonPart = response.data.split("<br />")[1];
+        // const parsedData = JSON.parse(jsonPart);
+        setOCRData(response.data);
       } catch (error) {
         console.error("error:", error);
       }

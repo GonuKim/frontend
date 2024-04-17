@@ -1,0 +1,274 @@
+.main_container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fafafa;
+  overflow: auto;
+}
+
+.top_name_wrap {
+  width: 100%;
+  display: flex;
+  margin-bottom: 5rem;
+  background-color: #006fff;
+  font-size: 3rem;
+  color: #ffffff;
+  padding: 2%;
+  padding-left: 10%;
+}
+
+.input_btn {
+  width: 80%;
+  display: flex;
+  margin-bottom: 1%;
+}
+
+.input_btn button {
+  border-radius: 10px;
+  padding: 1rem 2rem 1rem 2rem;
+  background-color: #006fff;
+  box-shadow: 0 0 10px rgba(0, 99, 255, 0.5);
+  color: #ffffff;
+  border: 2px solid #cacaca;
+  font-size: 2rem;
+
+  @media (max-width: 700px) {
+    font-size: 1.3rem;
+  }
+}
+
+.input_result_wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3%;
+}
+
+.input_wrap {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f7;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  justify-content: space-between;
+  border-radius: 15px;
+  padding: 1%;
+}
+
+.top_container {
+  display: flex;
+}
+.text_wrap {
+  width: 50%;
+  height: auto;
+}
+
+.text_area {
+  margin-right: 2%;
+}
+
+.text_area textarea {
+  background-color: #ffffff;
+  border: 2px solid #e2e6ea;
+  border-radius: 10px;
+  padding: 2%;
+  color: black;
+  outline: none;
+  width: 100%;
+  height: 25vh;
+  font-size: 2rem;
+}
+
+.text_area textarea:focus {
+  border: 2px solid #cacaca;
+}
+
+.tts_wrap {
+  width: 98%;
+  background-color: #ffffff;
+  border: 2px solid #e2e6ea;
+  border-radius: 10px;
+  padding: 2%;
+}
+
+.play_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  color: #ffffff;
+  background-color: #006fff;
+  border-radius: 10px;
+  padding: 1%;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.play_icon {
+  font-size: 2rem;
+  margin-right: 2%;
+}
+
+.audio_wrap {
+  width: 50%;
+}
+
+.input_area {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1%;
+  height: 25vh;
+  border: 2px solid #e2e6ea;
+}
+
+.upload_box_text {
+  width: 100%;
+  border-bottom: 2px solid #e2e6ea;
+  margin-bottom: 2%;
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.upload_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2.5px dashed #e2e6ea;
+  width: 100%;
+  height: 100%;
+}
+
+.upload_box:hover {
+  background-color: #edf2ff;
+  border: 2.5px solid #3062d4;
+}
+
+.upload_icon {
+  font-size: 5rem;
+  padding-bottom: 1rem;
+}
+
+.upload_msg {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.file {
+  display: none;
+}
+
+.file::file-selector-button {
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 12px;
+  padding: 4px 32px;
+  cursor: pointer;
+}
+
+.recorder_wrap {
+  display: flex;
+  width: 100%;
+  background-color: #ffffff;
+  border: 2px solid #e2e6ea;
+  border-radius: 10px;
+  padding: 2%;
+  margin-top: 1.2%;
+  justify-content: space-between;
+}
+
+.recorder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background-color: #006fff;
+  border-radius: 10px;
+  padding: 1%;
+  cursor: pointer;
+  width: 30%;
+  font-size: 1.5rem;
+}
+
+.mic_icon {
+  font-size: 2rem;
+}
+
+.graph_wrap {
+  width: 100%;
+  background-color: #ffffff;
+  height: 40vh;
+  border: 2px solid #e2e6ea;
+  border-radius: 10px;
+  margin-top: 1%;
+  padding: 1%;
+}
+
+.graph_text {
+  font-size: 2rem;
+}
+
+.result_wrap {
+  margin-top: 2%;
+  width: 80%;
+  background-color: #f5f5f7;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+}
+
+.result_text {
+  width: 100%;
+  font-size: 2.5rem;
+  border-bottom: 4px solid #cacaca;
+  display: flex;
+  text-align: center;
+}
+
+.speak_icon {
+  font-size: 4rem;
+  margin-right: 1%;
+}
+
+.progress_bar_wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 2%;
+}
+
+.progress_bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.type_of_progress {
+  margin-bottom: 5%;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  width: 60%;
+}
+
+.score_color_wrap {
+  display: flex;
+  width: 20%;
+  justify-content: space-between;
+}
+
+.color_score {
+  display: flex;
+  align-items: center;
+}

@@ -32,18 +32,21 @@
 
 body {
   background-color: #343837;
+  overflow: hidden;
+  height: 100vh;
 }
 .game_wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5rem;
-  padding: 5rem;
+  margin-bottom: 2rem;
   background-color: #18181b;
+  overflow: hidden;
+  height: auto;
 }
 
 .title_wrap {
-  padding: 3rem;
+  padding: 2rem;
   padding-left: 15rem;
   border-bottom: 1px solid #68cc45;
 

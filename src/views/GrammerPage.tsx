@@ -42,8 +42,8 @@ const GrammarPage: React.FC = () => {
       const accessToken = sessionStorage.getItem("accessToken");
 
       try {
-        const response = await instance.get<GrammarData[]>(
-          `/api/jlpt/grammar/N1`,
+        const response = await instance.get(
+          `/api/jlpt/grammar/`,
 
           {
             headers: {
@@ -51,140 +51,71 @@ const GrammarPage: React.FC = () => {
             },
           }
         );
-        console.log(response.data);
+        console.log("response.data", response.data);
+        const data = response.data;
+        const dataN1 = data.N1[0].grammars;
+        console.log("data", dataN1);
+        const formattedDataN1 = dataN1.map((grammarItem) => ({
+          id: grammarItem.id,
+          grammar: grammarItem.grammar,
+          conjunction: grammarItem.conjunction,
+          explain: grammarItem.explain,
+          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[0] ? parts[0].trim() : "";
+          }),
+          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+          }),
+          meaning: grammarItem.meaning,
+        }));
 
-        // 예문을 JSON으로 파싱하고, 각각의 일본어와 한국어 부분을 분리하여 저장.
-        // br을 \n으로 변경 (줄바꿈위해)
-        const updatedData = response.data.map((item) => {
-          const examples = JSON.parse(item.example);
-          const exampleKanji: string[] = [];
-          const exampleKorean: string[] = [];
+        setN1(formattedDataN1);
 
-          Object.keys(examples).forEach((key) => {
-            const splitExample = examples[key]?.split("<br>") || [];
-            if (splitExample.length === 2) {
-              exampleKanji.push(splitExample[0].trim());
-              exampleKorean.push(splitExample[1].trim());
-            }
-          });
+        const dataN2 = data.N2[0].grammars;
+        console.log("data", dataN2);
+        const formattedDataN2 = dataN2.map((grammarItem) => ({
+          id: grammarItem.id,
+          grammar: grammarItem.grammar,
+          conjunction: grammarItem.conjunction,
+          explain: grammarItem.explain,
+          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[0] ? parts[0].trim() : "";
+          }),
+          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+          }),
+          meaning: grammarItem.meaning,
+        }));
 
-          return {
-            ...item,
-            mean: item.mean.replace(/<br>/g, `\n`),
-            conjunction: item.conjunction.replace(/<br>/g, `\n`),
-            explain: item.explain.replace(/<br>/g, `\n`),
-            exampleKanji,
-            exampleKorean,
-          };
-        });
+        setN2(formattedDataN2);
 
-        setN1(updatedData);
-        console.log("setN1111111::", N1);
+        const dataN3 = data.N3[0].grammars;
+        console.log("data", dataN3);
+        const formattedDataN3 = dataN3.map((grammarItem) => ({
+          id: grammarItem.id,
+          grammar: grammarItem.grammar,
+          conjunction: grammarItem.conjunction,
+          explain: grammarItem.explain,
+          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[0] ? parts[0].trim() : "";
+          }),
+          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
+            const parts = example.example.split("<br>");
+            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+          }),
+          meaning: grammarItem.meaning,
+        }));
+
+        setN3(formattedDataN3);
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
-    };
-    getSetData();
-  }, []);
 
-  useEffect(() => {
-    const getSetData = async () => {
-      setLoading(true);
-      const accessToken = sessionStorage.getItem("accessToken");
-
-      try {
-        const response = await instance.get<GrammarData[]>(
-          `/api/jlpt/grammar/N2`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        console.log(response.data);
-        // 예문을 JSON으로 파싱하고, 각각의 일본어와 한국어 부분을 분리하여 저장.
-        // br을 \n으로 변경 (줄바꿈위해)
-        const updatedData = response.data.map((item) => {
-          const examples = JSON.parse(item.example);
-          const exampleKanji: string[] = [];
-          const exampleKorean: string[] = [];
-
-          Object.keys(examples).forEach((key) => {
-            const splitExample = examples[key]?.split("<br>") || [];
-            if (splitExample.length === 2) {
-              exampleKanji.push(splitExample[0].trim());
-              exampleKorean.push(splitExample[1].trim());
-            }
-          });
-
-          return {
-            ...item,
-            mean: item.mean.replace(/<br>/g, `\n`),
-            conjunction: item.conjunction.replace(/<br>/g, `\n`),
-            explain: item.explain.replace(/<br>/g, `\n`),
-            exampleKanji,
-            exampleKorean,
-          };
-        });
-
-        setN2(updatedData);
-        console.log("setN1::", N1);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    };
-    getSetData();
-  }, []);
-
-  useEffect(() => {
-    const getSetData = async () => {
-      setLoading(true);
-      const accessToken = sessionStorage.getItem("accessToken");
-
-      try {
-        const response = await instance.get<GrammarData[]>(
-          `/api/jlpt/grammar/N3`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        console.log(response.data);
-        // 예문을 JSON으로 파싱하고, 각각의 일본어와 한국어 부분을 분리하여 저장.
-        // br을 \n으로 변경 (줄바꿈위해)
-        const updatedData = response.data.map((item) => {
-          const examples = JSON.parse(item.example);
-          const exampleKanji: string[] = [];
-          const exampleKorean: string[] = [];
-
-          Object.keys(examples).forEach((key) => {
-            const splitExample = examples[key]?.split("<br>") || [];
-            if (splitExample.length === 2) {
-              exampleKanji.push(splitExample[0].trim());
-              exampleKorean.push(splitExample[1].trim());
-            }
-          });
-
-          return {
-            ...item,
-            mean: item.mean.replace(/<br>/g, `\n`),
-            conjunction: item.conjunction.replace(/<br>/g, `\n`),
-            explain: item.explain.replace(/<br>/g, `\n`),
-            exampleKanji,
-            exampleKorean,
-          };
-        });
-
-        setN3(updatedData);
-        console.log("setN1::", N1);
-      } catch (error) {
-        console.log(error);
-      }
       setLoading(false);
     };
     getSetData();
