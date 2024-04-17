@@ -72,16 +72,20 @@ const TypingPage: React.FC = () => {
     },
   };
 
-  // 유저문장 입력 모달창 오픈
+  useEffect(() => {
+    // allSentences가 업데이트되면 무작위 문장 선택
+    if (allSentences.length > 0) {
+      randomIndex();
+    }
+  }, [allSentences]); // allSentences가 변경될 때마다 useEffect 실행
+
   const inputModalHandler = (grade: string) => {
     if (grade === "문장 추가") {
       setInputModal(true);
     } else if (grade === "유저 문장") {
       setAllSentences(userSentences);
-      randomIndex();
     } else if (grade === "기본 문장") {
       setAllSentences(defaultSentences);
-      randomIndex(); // 무작위 문장 선택
     }
   };
 
