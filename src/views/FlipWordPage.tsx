@@ -3,7 +3,7 @@ import instance from "../api/axios";
 import styles from "../css/FlipWordPage.module.css";
 import flipcard from "../img/flipcard.png";
 import { motion } from "framer-motion";
-import FlipWordModalPage from "../components/FlipWordModalPage";
+// import FlipWordModalPage from "../components/FlipWordModalPage";
 
 interface Card {
   id: string;
@@ -109,51 +109,55 @@ const FlipWordPage: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <div className={styles.list_container}>
-        <div className={styles.grade_container}>
-          <div className={styles.select_grade_wrap}>
-            {["N1", "N2", "N3", "N4", "N5", "유저 단어"].map((grade, index) => (
-              <motion.div
-                key={index}
-                onClick={() => inputModalHandler(grade)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                style={{
-                  scale: selectedGrade === grade ? 1.1 : 1,
-                  backgroundColor: selectedGrade === grade ? "#fafafa" : "",
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className={styles.grade_items}
-              >
-                {grade}
-              </motion.div>
-            ))}
+      <div className={styles.whole_container}>
+        <div className={styles.list_container}>
+          <div className={styles.grade_container}>
+            <div className={styles.select_grade_wrap}>
+              {["N1", "N2", "N3", "N4", "N5", "유저 단어"].map(
+                (grade, index) => (
+                  <motion.div
+                    key={index}
+                    onClick={() => inputModalHandler(grade)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    style={{
+                      scale: selectedGrade === grade ? 1.1 : 1,
+                      backgroundColor: selectedGrade === grade ? "#fafafa" : "",
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className={styles.grade_items}
+                  >
+                    {grade}
+                  </motion.div>
+                )
+              )}
+            </div>
           </div>
         </div>
+
+        <ul className={styles.cards}>
+          {cards.map((card, index) => (
+            <li
+              key={index}
+              className={`${styles.card} ${
+                flippedCards.includes(card.id) || matchedCards.includes(card.id)
+                  ? styles.flip
+                  : ""
+              }`}
+              onClick={() => handleCardClick(card.id)}
+            >
+              <div className={`${styles.view} ${styles.front}`}>
+                <img src={flipcard} alt="flipcard" />
+              </div>
+              <div className={`${styles.view} ${styles.back}`}>
+                {card.content}
+              </div>
+            </li>
+          ))}
+        </ul>
+        {/* 
+        {inputModal ? <FlipWordModalPage data={setInputModal} /> : null} */}
       </div>
-
-      <ul className={styles.cards}>
-        {cards.map((card, index) => (
-          <li
-            key={index}
-            className={`${styles.card} ${
-              flippedCards.includes(card.id) || matchedCards.includes(card.id)
-                ? styles.flip
-                : ""
-            }`}
-            onClick={() => handleCardClick(card.id)}
-          >
-            <div className={`${styles.view} ${styles.front}`}>
-              <img src={flipcard} alt="flipcard" />
-            </div>
-            <div className={`${styles.view} ${styles.back}`}>
-              {card.content}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      {inputModal ? <FlipWordModalPage data={setInputModal} /> : null}
     </div>
   );
 };
