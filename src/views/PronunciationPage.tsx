@@ -19,6 +19,7 @@ interface Score {
   CompletenessScore: number;
   FluencyScore: number;
   PronScore: number;
+  PitchScore: number;
 }
 
 interface PitchResult {
@@ -267,6 +268,7 @@ const PronunciationPage: React.FC = () => {
       CompletenessScore: 0,
       FluencyScore: 0,
       PronScore: 0,
+      PitchScore: 0,
     });
     const accessToken = sessionStorage.getItem("accessToken");
 
@@ -286,12 +288,19 @@ const PronunciationPage: React.FC = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        const data = response.data.speechResult.pronunciationAssessmentResult;
+        const data = response.data.speechResult;
         setScore({
-          AccuracyScore: Math.round(data.AccuracyScore),
-          CompletenessScore: Math.round(data.CompletenessScore),
-          FluencyScore: Math.round(data.FluencyScore),
-          PronScore: Math.round(data.PronScore),
+          AccuracyScore: Math.round(
+            data.pronunciationAssessmentResult.AccuracyScore
+          ),
+          CompletenessScore: Math.round(
+            data.pronunciationAssessmentResult.CompletenessScore
+          ),
+          FluencyScore: Math.round(
+            data.pronunciationAssessmentResult.FluencyScore
+          ),
+          PronScore: Math.round(data.pronunciationAssessmentResult.PronScore),
+          PitchScore: Math.round(data.pitchComparisonResult),
         });
         console.log(score);
         console.log(response.data);
@@ -487,6 +496,7 @@ const PronunciationPage: React.FC = () => {
               <p>음성 Pitch 그래프</p>
             </div>
             <ReactApexChart
+              // options 오류 무시
               options={graphOptions}
               series={graphSeries}
               type="area"
@@ -509,6 +519,7 @@ const PronunciationPage: React.FC = () => {
                 linearGradient={getGradientColor(score?.PronScore)}
                 percent={score?.PronScore}
                 round
+                size={190}
                 stroke={7}
                 strokeBottom={5}
                 styles={{
@@ -525,6 +536,7 @@ const PronunciationPage: React.FC = () => {
                 linearGradient={getGradientColor(score?.AccuracyScore)}
                 percent={score?.AccuracyScore}
                 round
+                size={190}
                 stroke={7}
                 strokeBottom={5}
                 styles={{
@@ -541,6 +553,7 @@ const PronunciationPage: React.FC = () => {
                 linearGradient={getGradientColor(score?.CompletenessScore)}
                 percent={score?.CompletenessScore}
                 round
+                size={190}
                 stroke={7}
                 strokeBottom={5}
                 styles={{
@@ -557,6 +570,24 @@ const PronunciationPage: React.FC = () => {
                 linearGradient={getGradientColor(score?.FluencyScore)}
                 percent={score?.FluencyScore}
                 round
+                size={190}
+                stroke={7}
+                strokeBottom={5}
+                styles={{
+                  borderRadius: "50%",
+                  boxShadow: "0 0 15px rgba(130, 230, 243, 0.8)",
+                }}
+              />
+            </div>
+
+            <div className={styles.progress_bar}>
+              <div className={styles.type_of_progress}>피치 점수</div>
+              <CircularProgressBar
+                colorCircle="#DDF5FE"
+                linearGradient={getGradientColor(score?.PitchScore)}
+                percent={score?.PitchScore}
+                round
+                size={190}
                 stroke={7}
                 strokeBottom={5}
                 styles={{

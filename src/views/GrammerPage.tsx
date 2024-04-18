@@ -9,6 +9,14 @@ import { FaBook } from "react-icons/fa";
 import { BsFileText } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 
+interface GrammarExample {
+  id: number;
+  grammar_id: number;
+  user_id: number;
+  example: string; // 이 필드에는 '<br>'로 구분된 일본어 및 한국어 예문이 포함됩니다.
+  created_at: string;
+}
+
 interface GrammarData {
   id: number;
   grammar: string;
@@ -17,7 +25,8 @@ interface GrammarData {
   example: string;
   exampleKanji: string[];
   exampleKorean: string[];
-  mean: string;
+  meaning: string;
+  grammar_examples: GrammarExample[];
 }
 const GrammarPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -55,60 +64,72 @@ const GrammarPage: React.FC = () => {
         const data = response.data;
         const dataN1 = data.N1[0].grammars;
         console.log("data", dataN1);
-        const formattedDataN1 = dataN1.map((grammarItem) => ({
+        const formattedDataN1 = dataN1.map((grammarItem: GrammarData) => ({
           id: grammarItem.id,
-          grammar: grammarItem.grammar,
-          conjunction: grammarItem.conjunction,
-          explain: grammarItem.explain,
-          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[0] ? parts[0].trim() : "";
-          }),
-          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
-          }),
-          meaning: grammarItem.meaning,
+          grammar: grammarItem.grammar.replace(/<br>/g, `\n`),
+          conjunction: grammarItem.conjunction.replace(/<br>/g, `\n`),
+          explain: grammarItem.explain.replace(/<br>/g, `\n`),
+          exampleKanji: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[0] ? parts[0].trim() : "";
+            }
+          ),
+          exampleKorean: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+            }
+          ),
+          meaning: grammarItem.meaning.replace(/<br>/g, `\n`),
         }));
 
         setN1(formattedDataN1);
 
         const dataN2 = data.N2[0].grammars;
         console.log("data", dataN2);
-        const formattedDataN2 = dataN2.map((grammarItem) => ({
+        const formattedDataN2 = dataN2.map((grammarItem: GrammarData) => ({
           id: grammarItem.id,
-          grammar: grammarItem.grammar,
-          conjunction: grammarItem.conjunction,
-          explain: grammarItem.explain,
-          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[0] ? parts[0].trim() : "";
-          }),
-          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
-          }),
-          meaning: grammarItem.meaning,
+          grammar: grammarItem.grammar.replace(/<br>/g, `\n`),
+          conjunction: grammarItem.conjunction.replace(/<br>/g, `\n`),
+          explain: grammarItem.explain.replace(/<br>/g, `\n`),
+          exampleKanji: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[0] ? parts[0].trim() : "";
+            }
+          ),
+          exampleKorean: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+            }
+          ),
+          meaning: grammarItem.meaning.replace(/<br>/g, `\n`),
         }));
 
         setN2(formattedDataN2);
 
         const dataN3 = data.N3[0].grammars;
         console.log("data", dataN3);
-        const formattedDataN3 = dataN3.map((grammarItem) => ({
+        const formattedDataN3 = dataN3.map((grammarItem: GrammarData) => ({
           id: grammarItem.id,
-          grammar: grammarItem.grammar,
-          conjunction: grammarItem.conjunction,
-          explain: grammarItem.explain,
-          exampleKanji: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[0] ? parts[0].trim() : "";
-          }),
-          exampleKorean: grammarItem.grammar_examples.map((example: any) => {
-            const parts = example.example.split("<br>");
-            return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
-          }),
-          meaning: grammarItem.meaning,
+          grammar: grammarItem.grammar.replace(/<br>/g, `\n`),
+          conjunction: grammarItem.conjunction.replace(/<br>/g, `\n`),
+          explain: grammarItem.explain.replace(/<br>/g, "<br/>"),
+          exampleKanji: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[0] ? parts[0].trim() : "";
+            }
+          ),
+          exampleKorean: grammarItem.grammar_examples.map(
+            (example: { example: string }) => {
+              const parts = example.example.split("<br>");
+              return parts[1] ? parts[1].trim() : ""; // parts[1]이 undefined 일 수 있으므로 확인
+            }
+          ),
+          meaning: grammarItem.meaning.replace(/<br>/g, `\n`),
         }));
 
         setN3(formattedDataN3);
@@ -331,7 +352,7 @@ const GrammarPage: React.FC = () => {
                   의미
                 </p>
                 <p style={{ whiteSpace: "pre-wrap" }} className={styles.text}>
-                  {selectedGrammar.mean}
+                  {selectedGrammar.meaning}
                 </p>
               </motion.div>
 
