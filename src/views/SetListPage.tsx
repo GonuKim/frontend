@@ -35,19 +35,28 @@ const SetListPage: React.FC = () => {
         // API 응답에서 게시글 배열에 접근하여 상태 업데이트
         if (
           response.data.status === "Success" &&
+          Array.isArray(response.data.adminNotes) &&
           Array.isArray(response.data.notes)
         ) {
-          const receivedPosts: Post[] = response.data.notes.map(
-            (post: Post) => ({
-              id: post.id, // id 값도 포함하여 매핑
-              updated_at: post.updated_at,
-              title: post.title,
-            })
-          );
+          // notes와 adminNotes 배열을 결합
+          const combinedNotes = [
+            ...response.data.adminNotes,
+            ...response.data.notes,
+          ];
+
+          // 결합된 배열을 매핑하여 필요한 데이터 추출
+          const receivedPosts: Post[] = combinedNotes.map((post: Post) => ({
+            id: post.id,
+            updated_at: post.updated_at,
+            title: post.title,
+          }));
+
+          // posts 상태 업데이트
           setPosts(receivedPosts);
         } else {
+          // 데이터가 유효하지 않은 경우 빈 배열로 초기화
           setPosts([]);
-          console.log("posts::", posts);
+          console.log("posts::", posts); // 현재 posts 상태 로깅 (동기적으로 로깅되지 않을 수 있음)
         }
       } catch (error) {
         if (error instanceof Error) {
