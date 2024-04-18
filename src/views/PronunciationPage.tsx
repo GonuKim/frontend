@@ -12,6 +12,7 @@ import { IoIosMic } from "react-icons/io";
 import { motion } from "framer-motion";
 import * as Pitchy from "pitchy";
 import ReactApexChart from "react-apexcharts";
+import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 
 interface Score {
   AccuracyScore: number;
@@ -41,9 +42,9 @@ const PronunciationPage: React.FC = () => {
   const [score, setScore] = useState<Score | null>(null);
 
   const [recording, setRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
-  );
+
+  const [recorder, setRecorder] = useState<any>(null);
+
   const [pitchResults, setPitchResults] = useState<
     { pitch: number; clarity: number }[]
   >([]);
@@ -144,9 +145,16 @@ const PronunciationPage: React.FC = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
-        recorder.start();
+        // RecordRTC를 사용하여 recorder 설정
+        const recorder = new RecordRTC(stream, {
+          type: "audio",
+          mimeType: "audio/wav", // WAV 형식으로 설정
+          recorderType: StereoAudioRecorder, // 오디오 트랙을 스테레오로 녹음
+          numberOfAudioChannels: 1, // 모노 채널
+        });
+
+        setRecorder(recorder);
+        recorder.startRecording();
         setRecording(true);
       })
       .catch((error) => {
@@ -156,20 +164,21 @@ const PronunciationPage: React.FC = () => {
 
   // 녹음 중지 함수
   const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-      mediaRecorder.stream.getTracks().forEach((track) => track.stop()); // 스트림 트랙 중지
-      setRecording(false);
-      mediaRecorder.ondataavailable = (event) => {
-        // Blob을 File 객체로 변환하여 'file' 상태 업데이트
-        const recordedFile = new File([event.data], "recorded_audio.wav", {
-          type: event.data.type,
-          lastModified: new Date().getTime(),
+    if (recorder) {
+      recorder.stopRecording(() => {
+        const recordedBlob = recorder.getBlob();
+        const recordedFile = new File([recordedBlob], "recorded_audio.wav", {
+          type: "audio/wav",
+          lastModified: Date.now(),
         });
-        setFile(recordedFile); // 파일 상태 업데이트
 
+        setFile(recordedFile); // 파일 상태 업데이트
+        setRecording(false);
+
+        // 스트림 트랙 중지
+        recorder.stream.getTracks().forEach((track) => track.stop());
         analyzePitchFromFile(); // 녹음 데이터 설정 후 피치 분석
-      };
+      });
     }
   };
 
