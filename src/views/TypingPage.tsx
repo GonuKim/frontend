@@ -248,7 +248,7 @@ const TypingPage: React.FC = () => {
                   <MdOutlineKeyboardAlt
                     className={styles.MdOutlineKeyboardAlt}
                   />
-                  타자속도:{cpm.toFixed(2)} CPM
+                  타자속도:{cpm.toFixed(2)} 타
                 </p>
               </div>
               <div className={styles.status_wrap}>
@@ -307,7 +307,7 @@ const TypingPage: React.FC = () => {
           <div className={styles.modalBackground}>
             <div className={styles.modalContent}>
               <h2>결과</h2>
-              <p>타자속도: {cpm.toFixed(2)} CPM</p>
+              <p>타자속도: {cpm.toFixed(2)} 타</p>
               <p>
                 시간: {Math.floor(elapsedTime / 60)} 분 {elapsedTime % 60} 초
               </p>

@@ -3,7 +3,8 @@ import axios from "axios";
 const setConfig = () => {
   const accessToken = sessionStorage.getItem("accessToken");
   return {
-    baseURL: "http://localhost:8000",
+    baseURL:
+      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
     withXSRFToken: true,
     withCredentials: true,
     headers: {

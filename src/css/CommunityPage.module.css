@@ -5,9 +5,19 @@
   overflow: auto;
 }
 
+.link_style {
+  background-color: #ffffff;
+  width: calc(27%);
+  height: 20vh;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(107, 167, 190, 0.5);
+  margin-bottom: 2%;
+}
+
 .recommend_container {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .recommend_text_container {
@@ -21,6 +31,7 @@
 
 .recommend_item_container {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 3%;
   padding-left: 2%;
   padding-right: 2%;
@@ -28,16 +39,11 @@
 }
 
 .recommend_items {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: calc(18%);
-  height: 20vh;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(107, 167, 190, 0.5);
-  margin-bottom: 2%;
+  height: 100%;
 }
 
 .items_texts {
