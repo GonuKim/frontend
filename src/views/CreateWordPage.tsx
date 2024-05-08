@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import instance from "../api/axios";
 import axios from "axios";
 import { DataContext } from "../contexts/DataContext"; // useData 훅 import
+import Form from "react-bootstrap/Form";
 
 interface WordsState {
   title: string;
@@ -231,6 +232,10 @@ const CreateWord: React.FC = () => {
           <h4 onClick={() => openModal("OCR")} style={{ cursor: "pointer" }}>
             OCR로 단어 입력
           </h4>
+
+          {/* <div className={styles.check_wrap}>
+            <Form.Check type="checkbox" id="checkbox" label="공개할까요?" />
+          </div> */}
         </div>
       </div>
 

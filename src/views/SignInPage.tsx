@@ -13,9 +13,9 @@ const SignIn = () => {
   const [loginUrl, setLoginUrl] = useState();
   const [provider, setProvider] = useState("");
 
-
   const customAxios = axios.create({
-    baseURL: "http://localhost:8000/",
+    baseURL:
+      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
     withXSRFToken: true,
     withCredentials: true,
   });
@@ -35,31 +35,32 @@ const SignIn = () => {
 
   const [user, setUser] = useState(null);
 
-  const handle_social_login =(provider:string) => {
-
-    axios.get(`http://localhost:8000/api/social/${provider}`, {
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-        },
-        'withXSRFToken': true,
-        "withCredentials": true,
-
-    })
-    .then((response) => {
-        if (response.status === 200) {
-            return response.data;
+  const handle_social_login = (provider: string) => {
+    axios
+      .get(
+        `http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80/api/social/${provider}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          withXSRFToken: true,
+          withCredentials: true,
         }
-        throw new Error('Something went wrong!');
-    })
-    .then((data) => {
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          return response.data;
+        }
+        throw new Error("Something went wrong!");
+      })
+      .then((data) => {
         setLoginUrl(data.url);
         setProvider(provider);
-
-    })
-    .catch((error) => {
-        console.error('소셜 로그인에 실패했습니다:', error);
-    });
+      })
+      .catch((error) => {
+        console.error("소셜 로그인에 실패했습니다:", error);
+      });
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,13 +83,12 @@ const SignIn = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "유효한 이메일 주소를 입력하세요.";
     }
-    if(formData.password.length <6) {
-      errors.password = "비밀번호는 7자 이상이어야 합니다."
+    if (formData.password.length < 6) {
+      errors.password = "비밀번호는 7자 이상이어야 합니다.";
     }
     setFormErrors(errors);
-    e.preventDefault()
+    e.preventDefault();
     // return Object.keys(errors).length === 0;
-    
   };
   const handleSubmit = async (e: FormEvent) => {
     try {
@@ -97,22 +97,20 @@ const SignIn = () => {
       console.log(response);
       console.log(response.data);
 
-      if(response.data.message === "Login success") {
+      if (response.data.message === "Login success") {
         const { access_token, refresh_token } = response.data;
 
-      setAccessToken(access_token);
-      setRefreshToken(refresh_token);
+        setAccessToken(access_token);
+        setRefreshToken(refresh_token);
 
-      sessionStorage.setItem("accessToken", access_token);
-      sessionStorage.setItem("refreshToken", refresh_token);
+        sessionStorage.setItem("accessToken", access_token);
+        sessionStorage.setItem("refreshToken", refresh_token);
 
-      alert("로그인에 성공했습니다.");
-      window.location.href = "/Main"; // 이동할 페이지
+        alert("로그인에 성공했습니다.");
+        window.location.href = "/Main"; // 이동할 페이지
       } else {
         alert("아이디 또는 비밀번호가 일치하지 않습니다.");
       }
-
-      
     } catch (error) {
       console.error("로그인 중 오류 발생:", error);
       if (error instanceof Error) {
@@ -121,8 +119,6 @@ const SignIn = () => {
     }
   };
 
- 
-
   return (
     <div className={styles.wrap}>
       <div className={styles.main_wrap}>
@@ -130,7 +126,7 @@ const SignIn = () => {
           <div className={styles.logo_wrap}>
             <img src={logo} alt="" />
           </div>
-          
+
           <h2 className={styles.h2}>아이디</h2>
           <div>
             <input
@@ -141,7 +137,9 @@ const SignIn = () => {
               value={formData.email}
               onChange={handleInputChange}
             />
-             {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
+            {formErrors.email && (
+              <p style={{ color: "red" }}>{formErrors.email}</p>
+            )}
           </div>
 
           <h2 className={styles.h2}>비밀번호</h2>
@@ -155,43 +153,47 @@ const SignIn = () => {
               onChange={handleInputChange}
             />
           </div>
-          {formErrors.password && <p style={{ color: "red" }}>{formErrors.password}</p>}
+          {formErrors.password && (
+            <p style={{ color: "red" }}>{formErrors.password}</p>
+          )}
         </div>
-        
+
         <div className={styles.btn_wrap}>
           <button className={styles.circle} onClick={handleSubmit}>
             로그인
           </button>
         </div>
 
-           <div  className={styles.social_link}>
-
-              <div className={styles.social_text_container}> 
-            <p className={styles.social_text} >소셜 로그인</p>
-            </div>
-              <div className={styles.social_container}>
+        <div className={styles.social_link}>
+          <div className={styles.social_text_container}>
+            <p className={styles.social_text}>소셜 로그인</p>
+          </div>
+          <div className={styles.social_container}>
             <div className={styles.social_items}>
-              <a href={loginUrl} onClick={() => handle_social_login('google')}> 
-            <img className={styles.socialIcon} src={socialGoogle} alt="" /></a>
-            </div>
-
-            <div className={styles.social_items}>
-              <a href={loginUrl} onClick={() => handle_social_login('kakao')}> 
-            <img className={styles.socialIcon} src={socialKakao} alt="" /></a>
+              <a href={loginUrl} onClick={() => handle_social_login("google")}>
+                <img className={styles.socialIcon} src={socialGoogle} alt="" />
+              </a>
             </div>
 
             <div className={styles.social_items}>
-              <a href={loginUrl} onClick={() => handle_social_login('naver')}> 
-            <img className={styles.socialIcon} src={socialNaver} alt="" /></a>
+              <a href={loginUrl} onClick={() => handle_social_login("kakao")}>
+                <img className={styles.socialIcon} src={socialKakao} alt="" />
+              </a>
             </div>
 
             <div className={styles.social_items}>
-              <a href={loginUrl} onClick={() => handle_social_login('github')}> 
-            <img className={styles.socialIcon} src={socialGithub} alt="" /></a>
+              <a href={loginUrl} onClick={() => handle_social_login("naver")}>
+                <img className={styles.socialIcon} src={socialNaver} alt="" />
+              </a>
             </div>
+
+            <div className={styles.social_items}>
+              <a href={loginUrl} onClick={() => handle_social_login("github")}>
+                <img className={styles.socialIcon} src={socialGithub} alt="" />
+              </a>
             </div>
-            </div>
-       
+          </div>
+        </div>
       </div>
     </div>
   );

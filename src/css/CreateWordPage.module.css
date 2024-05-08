@@ -69,6 +69,12 @@ body {
 
 .external_excel {
   margin-right: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.check_wrap {
+  margin-left: 3%;
 }
 
 .word_input_main_wrap {

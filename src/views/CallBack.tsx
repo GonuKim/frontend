@@ -25,14 +25,15 @@ function SocialCallback({ provider }: SocialCallbackProps) {
   );
 
   const customAxios = axios.create({
-    baseURL: "http://localhost:8000/",
+    baseURL:
+      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
     withXSRFToken: true,
     withCredentials: true,
   });
 
   function fetchUserData() {
     customAxios
-      .get(`http://localhost:8000/api/user`, {
+      .get(`/api/user`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -55,21 +56,16 @@ function SocialCallback({ provider }: SocialCallbackProps) {
   useEffect(() => {
     console.log(provider, "dddd");
     customAxios
-      .get(
-        `http://localhost:8000/api/social/callback/${provider}${location.search}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Access-Control-Allow-Origin": `http://localhost/:8000`,
-            "Access-Control-Allow-Credentials": "true",
-          },
-          withXSRFToken: true,
-          withCredentials: true,
-        }
-      )
+      .get(`/api/social/callback/${provider}${location.search}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        withXSRFToken: true,
+        withCredentials: true,
+      })
       .then((response) => {
-
         setLoading(false);
         setData(response.data);
         sessionStorage.setItem("accessToken", response.data.access_token || ""); // or provide a default value like 'defaultAccessToken'

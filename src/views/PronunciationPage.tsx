@@ -190,7 +190,7 @@ const PronunciationPage: React.FC = () => {
   ): Promise<void> => {
     const audioContext = new AudioContext(); // 오디오 컨텍스트를 생성
     const audioData = audioBuffer.getChannelData(0); // 첫 번째 채널 데이터 사용
-    const frameSize = 4096; // 프레임 크기 설정
+    const frameSize = 1024; // 프레임 크기 설정
     const overlapFactor = 0.7; // 자세한 분석을 위해 오버랩 팩터 설정
     // 실제로 프레임 간 이동할 샘플 수 계산
     const stepSize = frameSize * (1 - overlapFactor);

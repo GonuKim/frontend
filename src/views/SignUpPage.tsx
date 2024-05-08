@@ -28,7 +28,6 @@ const SignUp = () => {
     phone: "",
     birthday: "",
   });
-  
 
   useEffect(() => {
     const datePicker = flatpickr("#datepicker", {
@@ -62,7 +61,7 @@ const SignUp = () => {
       phone: "",
       birthday: "",
     };
-    
+
     if (!formData.email) {
       errors.email = "이메일은 필수입니다.";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -88,9 +87,9 @@ const SignUp = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
   const customAxios = axios.create({
-    baseURL: "http://localhost:8000/",
+    baseURL: "tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
     withXSRFToken: true,
     withCredentials: true,
   });
@@ -129,7 +128,9 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                 />
-                 {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
+                {formErrors.email && (
+                  <p style={{ color: "red" }}>{formErrors.email}</p>
+                )}
               </div>
 
               <h2 className={styles.h2}>비밀번호</h2>
@@ -142,7 +143,9 @@ const SignUp = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                 />
-                {formErrors.password && <p style={{ color: "red" }}>{formErrors.password}</p>}
+                {formErrors.password && (
+                  <p style={{ color: "red" }}>{formErrors.password}</p>
+                )}
               </div>
 
               <h2 className={styles.h2}>비밀번호 확인</h2>
@@ -155,7 +158,11 @@ const SignUp = () => {
                   value={formData.password_confirmation}
                   onChange={handleInputChange}
                 />
-                {formErrors.password_confirmation && <p style={{ color: "red" }}>{formErrors.password_confirmation}</p>}
+                {formErrors.password_confirmation && (
+                  <p style={{ color: "red" }}>
+                    {formErrors.password_confirmation}
+                  </p>
+                )}
               </div>
 
               <h2 className={styles.h2}>닉네임</h2>
@@ -168,7 +175,9 @@ const SignUp = () => {
                   value={formData.nickname}
                   onChange={handleInputChange}
                 />
-                 {formErrors.nickname && <p style={{ color: "red" }}>{formErrors.nickname}</p>}
+                {formErrors.nickname && (
+                  <p style={{ color: "red" }}>{formErrors.nickname}</p>
+                )}
               </div>
 
               <h2 className={styles.h2}>생년월일</h2>
@@ -180,7 +189,9 @@ const SignUp = () => {
                   placeholder="생년월일 선택"
                   name="birthday"
                 />
-                {formErrors.birthday && <p style={{ color: "red" }}>{formErrors.birthday}</p>}
+                {formErrors.birthday && (
+                  <p style={{ color: "red" }}>{formErrors.birthday}</p>
+                )}
               </div>
 
               <h2 className={styles.h2}>휴대전화 ( '-' 제외)</h2>
@@ -193,7 +204,9 @@ const SignUp = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
-                 {formErrors.phone && <p style={{ color: "red" }}>{formErrors.phone}</p>}
+                {formErrors.phone && (
+                  <p style={{ color: "red" }}>{formErrors.phone}</p>
+                )}
               </div>
 
               <div>

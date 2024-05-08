@@ -506,7 +506,7 @@ export default class FoggyStageScene extends Phaser.Scene {
   checkAnswer(choice: string, correctAnswer: string, wordObj: WordData) {
     if (choice === correctAnswer) {
       console.log("정답!");
-      this.necromancerHp -= 25;
+      this.necromancerHp -= 50;
       this.incorrectWords.score = this.killScore;
       console.log(`necormancer HP: ${this.necromancerHp}`);
       this.witch.play("charge", true).once("animationcomplete-charge", () => {
@@ -554,7 +554,7 @@ export default class FoggyStageScene extends Phaser.Scene {
       this.incorrectWords.score = this.killScore;
 
       console.log("incorrectWords:::", this.incorrectWords);
-      this.witchHp -= 25;
+      this.witchHp -= 50;
       console.log(`Witch HP: ${this.witchHp}`);
       this.necromancer
         .play("necromancerAtk")

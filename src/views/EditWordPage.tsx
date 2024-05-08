@@ -9,6 +9,7 @@ import axios from "axios";
 import { DataContext } from "../contexts/DataContext"; // useData 훅 import
 import LoadingBar from "../components/LoadingBar";
 import { useParams } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 interface WordsState {
   is_public: boolean;
@@ -23,6 +24,8 @@ const EditWordPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
+  const [isPublicCheck, setIsPublicCheck] = useState<boolean>(false);
+
   const { OCRData, parsedExcelData } = useContext(DataContext) || {};
   const { clearOCRData, clearParsedExcelData } = useContext(DataContext) || {};
 
@@ -32,8 +35,12 @@ const EditWordPage: React.FC = () => {
     clearParsedExcelData?.();
   }, [clearOCRData, clearParsedExcelData]);
 
+  useEffect(() => {
+    console.log("체크?", isPublicCheck);
+  }, [isPublicCheck]);
+
   const initialWords: WordsState = {
-    is_public: false,
+    is_public: isPublicCheck,
     title: "",
     kanji: Array(10).fill(""),
     meaning: Array(10).fill(""),
@@ -49,7 +56,7 @@ const EditWordPage: React.FC = () => {
 
       try {
         const response = await instance.get(`api/vocabularyNote/${id}`);
-        console.log(response.data);
+        console.log("가져온 단어장 데이터", response.data);
         if (response.data.status === "Success") {
           const data = response.data.note;
 
@@ -66,9 +73,10 @@ const EditWordPage: React.FC = () => {
             gana: parsedGana,
             kanji: parsedKanji,
             meaning: parsedMeaning,
-            is_public: false,
+            is_public: isPublicCheck,
           };
 
+          setIsPublicCheck(data.is_public);
           setWords(parsedWords);
           //나중에 지우기 콘솔로그
           console.log(parsedWords);
@@ -143,7 +151,7 @@ const EditWordPage: React.FC = () => {
         kanji: convertNullToEmptyString(OCRData?.kanji || []),
         meaning: convertNullToEmptyString(OCRData?.meaning || []),
         gana: convertNullToEmptyString(OCRData?.gana || []),
-        is_public: false,
+        is_public: isPublicCheck,
       };
     } else if (isDataNotEmpty(parsedExcelData)) {
       newData = {
@@ -151,7 +159,7 @@ const EditWordPage: React.FC = () => {
         kanji: convertNullToEmptyString(parsedExcelData?.kanji || []),
         meaning: convertNullToEmptyString(parsedExcelData?.meaning || []),
         gana: convertNullToEmptyString(parsedExcelData?.gana || []),
-        is_public: false,
+        is_public: isPublicCheck,
       };
     }
 
@@ -283,6 +291,16 @@ const EditWordPage: React.FC = () => {
           <h4 onClick={() => openModal("OCR")} style={{ cursor: "pointer" }}>
             OCR로 단어 입력
           </h4>
+
+          <div className={styles.check_wrap}>
+            <Form.Check
+              type="checkbox"
+              id="checkbox"
+              label="공개할까요?"
+              checked={isPublicCheck}
+              onChange={(e) => setIsPublicCheck(e.target.checked)}
+            />
+          </div>
         </div>
       </div>
 
