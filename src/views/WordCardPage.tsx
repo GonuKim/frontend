@@ -4,6 +4,7 @@ import styles from "../css/WordCardPage.module.css";
 import instance from "../api/axios";
 import axios from "axios";
 import LoadingBar from "../components/LoadingBar";
+import { useLocation } from "react-router-dom";
 
 interface Word {
   kanji: string;
@@ -17,7 +18,9 @@ interface Info {
 }
 
 const WordCardPage: React.FC = () => {
-  const { id } = useParams();
+  const location = useLocation();
+  const { id } = location.state as { id: string }; // `as`를 사용하여 타입 단언
+  const { id2 } = useParams();
   const [words, setWords] = useState<Word[]>([]);
   const [info, setInfo] = useState<Info>({ title: "", count: 0 });
   const [loading, setLoading] = useState(false);

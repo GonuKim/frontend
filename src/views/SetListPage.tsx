@@ -7,13 +7,21 @@ import LoadingBar from "../components/LoadingBar";
 
 interface Post {
   id: number;
+  apiId: number;
+  updated_at: string;
+  title: string;
+}
+
+interface AdminPost {
+  id: number;
+  apiId: string;
   updated_at: string;
   title: string;
 }
 
 const SetListPage: React.FC = () => {
   const [posts, setPosts] = React.useState<Post[]>([]);
-  const [adminPosts, setAdminPosts] = React.useState<Post[]>([]);
+  const [adminPosts, setAdminPosts] = React.useState<AdminPost[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -41,6 +49,7 @@ const SetListPage: React.FC = () => {
         ) {
           const myNotes = [...response.data.notes];
           const receivedPosts: Post[] = myNotes.map((post: Post) => ({
+            apiId: post.id,
             id: post.id,
             updated_at: post.updated_at,
             title: post.title,
@@ -50,14 +59,17 @@ const SetListPage: React.FC = () => {
           //response.data.adminNotes[0].title
           const testData = response.data.adminNotes[0].title;
           console.log("testData", testData);
-          const adminNotes = [...response.data.adminNotes.slice(0, 5)];
-          const receivedAdminPosts: Post[] = adminNotes.map((post: Post) => ({
-            id: post.id,
-            updated_at: post.updated_at,
-            title: JSON.parse(post.title),
-          }));
+          const adminNotes = [...response.data.adminNotes];
+          const receivedAdminPosts: AdminPost[] = adminNotes.map(
+            (post: AdminPost) => ({
+              id: post.id,
+              apiId: `notes/${post.id}`,
+              updated_at: post.updated_at,
+              title: post.title,
+            })
+          );
           setAdminPosts(receivedAdminPosts);
-          console.log(adminPosts);
+          console.log("adminPosts", adminPosts);
         } else {
           // 데이터가 유효하지 않은 경우 빈 배열로 초기화
           setPosts([]);
@@ -121,12 +133,15 @@ const SetListPage: React.FC = () => {
           <p>ID</p> <p>세트 이름</p>
           <p>만든 시간</p>
         </div>
-        <div className={styles.admin_set_wrap}></div>
 
         <div className={styles.my_set_wrap}>
           {posts.map((post, index) => (
             <div key={index} className={styles.set_info_container}>
-              <Link to={`/set/${post.id}`} className={styles.link_style}>
+              <Link
+                to={`/set/${post.id}`}
+                state={{ id: post.apiId }}
+                className={styles.link_style}
+              >
                 <p>#{index + 1}</p>
                 <p>{post.title}</p>
                 <p>{new Date(post.updated_at).toLocaleDateString()}</p>
@@ -143,6 +158,23 @@ const SetListPage: React.FC = () => {
                   삭제
                 </button>
               </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.admin_set_wrap}>
+          <div className={styles.admin_top_title}>기본 단어장</div>
+          {adminPosts.map((post, index) => (
+            <div key={index} className={styles.set_info_container}>
+              <Link
+                to={`/set/${post.id}`}
+                state={{ id: post.apiId }}
+                className={styles.link_style}
+              >
+                <p>#{index + 1}</p>
+                <p>{post.title}</p>
+                <p>{new Date(post.updated_at).toLocaleDateString()}</p>
+              </Link>
             </div>
           ))}
         </div>

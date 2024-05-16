@@ -89,7 +89,8 @@ const SignUp = () => {
   };
 
   const customAxios = axios.create({
-    baseURL: "tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
+    baseURL:
+      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
     withXSRFToken: true,
     withCredentials: true,
   });

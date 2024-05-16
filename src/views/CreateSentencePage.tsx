@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import styles from "../css/CreateWordPage.module.css";
 import { FaCirclePlus } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
