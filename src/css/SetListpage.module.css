@@ -99,11 +99,11 @@
 }
 
 .link_style {
-  flex: 3; /* ID, 제목, 날짜에 더 많은 공간 할당 */
   display: flex;
   justify-content: space-between;
   text-decoration: none;
   color: black;
+  width: 73%;
 }
 .link_style p {
   margin: 0; /* 기본 마진 제거 */
@@ -112,4 +112,13 @@
 .link_style:hover {
   color: grey; /* 마우스 호버 시 텍스트 색상 변경 */
   text-decoration: underline; /* 마우스 호버 시 밑줄 추가 */
+}
+
+.admin_set_wrap {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.admin_top_title {
+  font-size: 2rem;
 }

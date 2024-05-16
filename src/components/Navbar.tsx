@@ -77,6 +77,14 @@ const MainNavbar: React.FC = () => {
             >
               문법
             </NavDropdown.Item>
+
+            <NavDropdown.Item
+              className={styles.dropdown_item}
+              as={Link}
+              to="/CreateSentence"
+            >
+              문장 만들기
+            </NavDropdown.Item>
           </NavDropdown>
 
           <NavDropdown title="단어" id="basic-nav-dropdown">

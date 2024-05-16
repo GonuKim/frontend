@@ -291,15 +291,17 @@ const PronunciationPage: React.FC = () => {
         const data = response.data.speechResult;
         setScore({
           AccuracyScore: Math.round(
-            data.pronunciationAssessmentResult.AccuracyScore
+            data.pronunciationAssessmentResult.NBest[0].AccuracyScore
           ),
           CompletenessScore: Math.round(
-            data.pronunciationAssessmentResult.CompletenessScore
+            data.pronunciationAssessmentResult.NBest[0].CompletenessScore
           ),
           FluencyScore: Math.round(
-            data.pronunciationAssessmentResult.FluencyScore
+            data.pronunciationAssessmentResult.NBest[0].FluencyScore
           ),
-          PronScore: Math.round(data.pronunciationAssessmentResult.PronScore),
+          PronScore: Math.round(
+            data.pronunciationAssessmentResult.NBest[0].PronScore
+          ),
           PitchScore: Math.round(data.pitchComparisonResult),
         });
         console.log(score);
@@ -537,7 +539,7 @@ const PronunciationPage: React.FC = () => {
                 percent={score?.AccuracyScore}
                 round
                 size={190}
-                stroke={7}
+                stroke={8}
                 strokeBottom={5}
                 styles={{
                   borderRadius: "50%",

@@ -35,10 +35,6 @@ const EditWordPage: React.FC = () => {
     clearParsedExcelData?.();
   }, [clearOCRData, clearParsedExcelData]);
 
-  useEffect(() => {
-    console.log("체크?", isPublicCheck);
-  }, [isPublicCheck]);
-
   const initialWords: WordsState = {
     is_public: isPublicCheck,
     title: "",
@@ -48,6 +44,10 @@ const EditWordPage: React.FC = () => {
   };
   const [words, setWords] = useState<WordsState>(initialWords);
   const [externalData, setExternalData] = useState<WordsState | null>(null);
+
+  useEffect(() => {
+    console.log("체크?", isPublicCheck, words);
+  }, [isPublicCheck, words]);
 
   // 페이지 이동 시 단어장 데이터 불러오기
   useEffect(() => {
@@ -234,13 +234,21 @@ const EditWordPage: React.FC = () => {
       return;
     }
 
+    const updatedWords = {
+      ...words,
+      is_public: isPublicCheck, // 여기서 is_public만 업데이트
+    };
+
     console.log("words=::", words);
     try {
       console.log("words:::");
-      const response = await instance.patch(`/api/vocabularyNote/${id}`, words);
+      const response = await instance.patch(
+        `/api/vocabularyNote/${id}`,
+        updatedWords
+      );
       console.log("Data sent successfully:", response.data);
       alert("수정되었습니다.");
-      navigate(`/set/${id}`);
+      navigate(`/set/${id}`, { state: { id: id } });
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error message:", error.message);
