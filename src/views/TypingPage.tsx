@@ -59,17 +59,17 @@ const TypingPage: React.FC = () => {
     // 문장 업데이트
 
     // 유저 문장 조회
-    fetchUserSentences: async () => {
-      try {
-        const userSentences = await getUserSentences();
-        console.log("User sentences:", userSentences);
-        setAllSentences(userSentences);
+    // fetchUserSentences: async () => {
+    //   try {
+    //     const userSentences = await getUserSentences();
+    //     console.log("User sentences:", userSentences);
+    //     setAllSentences(userSentences);
 
-        // 여기서 유저가 업로드한 문장을 상태에 설정하거나 다른 처리를 할 수 있습니다.
-      } catch (error) {
-        console.error("Error fetching user sentences:", error);
-      }
-    },
+    //     // 여기서 유저가 업로드한 문장을 상태에 설정하거나 다른 처리를 할 수 있습니다.
+    //   } catch (error) {
+    //     console.error("Error fetching user sentences:", error);
+    //   }
+    // },
   };
 
   useEffect(() => {
@@ -79,26 +79,23 @@ const TypingPage: React.FC = () => {
     }
   }, [allSentences]); // allSentences가 변경될 때마다 useEffect 실행
 
-  const inputModalHandler = (grade: string) => {
-    if (grade === "문장 추가") {
-      setInputModal(true);
-    } else if (grade === "유저 문장") {
-      setAllSentences(userSentences);
-    } else if (grade === "기본 문장") {
-      setAllSentences(defaultSentences);
-    }
-  };
+  // const inputModalHandler = (grade: string) => {
+  //   if (grade === "문장 추가") {
+  //     setInputModal(true);
+  //   } else if (grade === "유저 문장") {
+  //     setAllSentences(userSentences);
+  //   } else if (grade === "기본 문장") {
+  //     setAllSentences(defaultSentences);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchSentences = async () => {
       try {
         const sentences = await getSentences();
-        const userSentences = await getUserSentences();
         console.log("sentences:", sentences);
-        console.log("userSentences:", userSentences);
 
         setDefaultSentences(sentences);
-        setUserSentences(userSentences);
         // const selectedUserSentence = userSentences[randomIndex];
         //   문장을 JSX로 변환하여 상태에 설정
         // setSentences(selectedUserSentence);
@@ -120,11 +117,15 @@ const TypingPage: React.FC = () => {
   useEffect(() => {}, [allSentences]);
 
   // 파일 업로드 완료 후 실행되는 콜백 함수
-  const handleFileUploadComplete = () => {
-    // 여기서 추가적인 처리를 할 수 있다.
-    // 예: 문장 조회 함수 호출
-    fns.fetchUserSentences();
-  };
+  // const handleFileUploadComplete = () => {
+  //   // 여기서 추가적인 처리를 할 수 있다.
+  //   // 예: 문장 조회 함수 호출
+  //   fns.fetchUserSentences();
+  // };
+
+  useEffect(()=> {
+    console.log("defaultSentences::", defaultSentences)
+  })
 
   const handler = {
     input: {
@@ -211,26 +212,6 @@ const TypingPage: React.FC = () => {
 
       <div className={styles.whole_container}>
         <div className={styles.list_container}>
-          <div className={styles.grade_container}>
-            <div className={styles.select_grade_wrap}>
-              {["기본 문장", "유저 문장", "문장 추가"].map((grade, index) => (
-                <motion.div
-                  key={index}
-                  onClick={() => inputModalHandler(grade)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  style={{
-                    scale: selectedGrade === grade ? 1.1 : 1,
-                    backgroundColor: selectedGrade === grade ? "#fafafa" : "",
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className={styles.grade_items}
-                >
-                  {grade}
-                </motion.div>
-              ))}
-            </div>
-          </div>
         </div>
         <div className={styles.stats_wrap}>
           <div className={styles.stats}>

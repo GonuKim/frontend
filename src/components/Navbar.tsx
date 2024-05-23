@@ -95,6 +95,7 @@ const MainNavbar: React.FC = () => {
             >
               단어장 만들기
             </NavDropdown.Item>
+
             <NavDropdown.Item
               className={styles.dropdown_item}
               as={Link}
@@ -102,6 +103,7 @@ const MainNavbar: React.FC = () => {
             >
               내가 만든 단어장
             </NavDropdown.Item>
+
             <NavDropdown.Item
               className={styles.dropdown_item}
               href="#action/3.2"
@@ -128,14 +130,14 @@ const MainNavbar: React.FC = () => {
             <NavDropdown.Item
               className={styles.dropdown_item}
               as={Link}
-              to="/FlipWord"
+              to="/SetFlipGame"
             >
               단어 뒤집기
             </NavDropdown.Item>
             <NavDropdown.Item
               className={styles.dropdown_item}
               as={Link}
-              to="/Typing"
+              to="/SetTyping"
             >
               일어 타자 연습
             </NavDropdown.Item>
