@@ -11,7 +11,7 @@ interface UserSentence {
 
 export async function getUserSentences() {
   const { data } = await instance.get<UserSentence[]>(
-    "/api/typing/getUserSentences"
+    "/api/typing/getSentences"
   );
   const result = data.map((d) => d.sentence);
   return result;

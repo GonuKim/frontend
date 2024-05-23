@@ -23,6 +23,8 @@ import EditWordPage from "./views/EditWordPage";
 import GrammarPage from "./views/GrammerPage";
 import PronunciationPage from "./views/PronunciationPage";
 import CreateSentencePage from "./views/CreateSentencePage";
+import SetFlipGamePage from "./views/SetFlipGamePage";
+import SetTypingPage from "./views/SetTypingPage";
 import { Create } from "phaser";
 // const CreateWordWrapper = () => (
 //   <DataProvider>
@@ -56,7 +58,7 @@ function App() {
             path="/social/callback/github"
             element={<SocialCallback provider="github" />}
           />
-          <Route path="/Typing" element={<TypingPage />} />
+          <Route path="/Typing/:id" element={<TypingPage />} />
           <Route path="/Game" element={<GamePage />} />
           <Route
             path="/CreateWord"
@@ -67,6 +69,7 @@ function App() {
             }
           />
           <Route path="/set/:id" element={<WordCardPage />} />
+
           <Route
             path="/EditWord/:id"
             element={
@@ -75,13 +78,15 @@ function App() {
               </DataProvider>
             }
           />
+          <Route path="/FlipCard/:id" element={<FlipWordPage />}/>
           <Route path="/Memorize/:id" element={<MemorizePage />} />
           <Route path="/MySet" element={<SetListPage />} />
           <Route path="/Community" element={<CommunityPage />} />
-          <Route path="/FlipWord" element={<FlipWordPage />} />
+          <Route path="/SetFlipGame" element={<SetFlipGamePage />} />
           <Route path="/CreateSentence" element={<CreateSentencePage />} />
           <Route path="/Grammar" element={<GrammarPage />} />
           <Route path="/Pronunciation" element={<PronunciationPage />} />
+          <Route path="/SetTyping" element={<SetTypingPage />} />
         </Routes>
       </Router>
     </AuthProvider>

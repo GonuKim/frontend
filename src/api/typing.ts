@@ -3,7 +3,7 @@ import instance from "./axios";
 interface Sentence {
   created_at: string;
   id: number;
-  sentence: string;
+  sentences: string;
   situation: any;
   updated_at: string;
   user_id: number;
@@ -11,6 +11,6 @@ interface Sentence {
 
 export async function getSentences() {
   const { data } = await instance.get<Sentence[]>("/api/typing/getSentences");
-  const result = data.map((d) => d.sentence);
+  const result = data.map((d) => JSON.parse(d.sentences));
   return result;
 }
