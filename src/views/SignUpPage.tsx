@@ -10,6 +10,7 @@ import logo from "../img/tamago.png";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import axios from "axios";
+import instance from "../api/axios";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -99,7 +100,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await customAxios.post("/api/register", formData);
+      const response = await instance.post("/api/register", formData);
       console.log(response);
 
       // 회원가입 성공 시 알람 창 띄우고 페이지 이동

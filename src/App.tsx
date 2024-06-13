@@ -25,12 +25,6 @@ import PronunciationPage from "./views/PronunciationPage";
 import CreateSentencePage from "./views/CreateSentencePage";
 import SetFlipGamePage from "./views/SetFlipGamePage";
 import SetTypingPage from "./views/SetTypingPage";
-import { Create } from "phaser";
-// const CreateWordWrapper = () => (
-//   <DataProvider>
-//     <CreateWordPage />
-//   </DataProvider>
-// );
 
 function App() {
   return (
@@ -78,7 +72,7 @@ function App() {
               </DataProvider>
             }
           />
-          <Route path="/FlipCard/:id" element={<FlipWordPage />}/>
+          <Route path="/FlipCard/:id" element={<FlipWordPage />} />
           <Route path="/Memorize/:id" element={<MemorizePage />} />
           <Route path="/MySet" element={<SetListPage />} />
           <Route path="/Community" element={<CommunityPage />} />

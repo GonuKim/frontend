@@ -7,14 +7,12 @@ import LoadingBar from "../components/LoadingBar";
 
 interface Post {
   id: number;
-  apiId: number;
   updated_at: string;
   title: string;
 }
 
 interface AdminPost {
   id: number;
-  apiId: string;
   updated_at: string;
   title: string;
 }
@@ -49,7 +47,6 @@ const SetListPage: React.FC = () => {
         ) {
           const myNotes = [...response.data.notes];
           const receivedPosts: Post[] = myNotes.map((post: Post) => ({
-            apiId: post.id,
             id: post.id,
             updated_at: post.updated_at,
             title: post.title,
@@ -63,7 +60,6 @@ const SetListPage: React.FC = () => {
           const receivedAdminPosts: AdminPost[] = adminNotes.map(
             (post: AdminPost) => ({
               id: post.id,
-              apiId: `notes/${post.id}`,
               updated_at: post.updated_at,
               title: post.title,
             })
@@ -91,6 +87,10 @@ const SetListPage: React.FC = () => {
     };
     getListData();
   }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시에만 함수가 실행되도록 합니다.
+
+  useEffect(() => {
+    console.log("adminPosts:::::", adminPosts);
+  }, [adminPosts]);
 
   const deleteSet = async (id: number) => {
     const isConfirmed = window.confirm("정말로 삭제하시겠습니까?");
@@ -137,11 +137,7 @@ const SetListPage: React.FC = () => {
         <div className={styles.my_set_wrap}>
           {posts.map((post, index) => (
             <div key={index} className={styles.set_info_container}>
-              <Link
-                to={`/set/${post.id}`}
-                state={{ id: post.apiId }}
-                className={styles.link_style}
-              >
+              <Link to={`/set/${post.id}`} className={styles.link_style}>
                 <p>#{index + 1}</p>
                 <p>{post.title}</p>
                 <p>{new Date(post.updated_at).toLocaleDateString()}</p>
@@ -166,11 +162,7 @@ const SetListPage: React.FC = () => {
           <div className={styles.admin_top_title}>기본 단어장</div>
           {adminPosts.map((post, index) => (
             <div key={index} className={styles.set_info_container}>
-              <Link
-                to={`/set/${post.id}`}
-                state={{ id: post.apiId }}
-                className={styles.link_style}
-              >
+              <Link to={`/set/${post.id}`} className={styles.link_style}>
                 <p>#{index + 1}</p>
                 <p>{post.title}</p>
                 <p>{new Date(post.updated_at).toLocaleDateString()}</p>

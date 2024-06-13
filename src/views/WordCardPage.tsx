@@ -4,7 +4,6 @@ import styles from "../css/WordCardPage.module.css";
 import instance from "../api/axios";
 import axios from "axios";
 import LoadingBar from "../components/LoadingBar";
-import { useLocation } from "react-router-dom";
 
 interface Word {
   kanji: string;
@@ -18,9 +17,7 @@ interface Info {
 }
 
 const WordCardPage: React.FC = () => {
-  const location = useLocation();
-  const { id } = location.state as { id: string }; // `as`를 사용하여 타입 단언
-  const { id2 } = useParams();
+  const { id } = useParams();
   const [words, setWords] = useState<Word[]>([]);
   const [info, setInfo] = useState<Info>({ title: "", count: 0 });
   const [loading, setLoading] = useState(false);
@@ -28,6 +25,7 @@ const WordCardPage: React.FC = () => {
   useEffect(() => {
     const getSetData = async () => {
       setLoading(true);
+      console.log("DetailPage ID:", id);
 
       try {
         const response = await instance.get(`api/vocabularyNote/${id}`);
@@ -39,7 +37,7 @@ const WordCardPage: React.FC = () => {
           const parsedMeaning = JSON.parse(data.meaning) || [];
           const parsedGana = JSON.parse(data.gana) || [];
           //나중에 지우기 콘솔로그
-          console.log(parsedMeaning);
+          console.log("parsedMeaning", parsedMeaning);
           console.log(parsedKanji);
           console.log(parsedGana);
           //////////////////////

@@ -168,21 +168,6 @@ export default class StageScene extends Phaser.Scene {
       });
     });
 
-    // 땅을 나타내는 스태틱 플랫폼 생성 (시각적으로 보이지 않게 설정)
-    const ground = this.physics.add.staticGroup();
-    // 땅의 위치와 크기를 정의합니다. 이 값은 게임의 실제 배경에 맞게 조정해야 합니다.
-    // 여기서는 화면 하단에 투명한 사각형을 생성합니다.
-    const groundPlatform = this.add.rectangle(
-      centerX,
-      this.cameras.main.height * 0.94,
-      this.cameras.main.width,
-      40,
-      0x0000ff,
-      0
-    );
-    // 스태틱 그룹에 사각형을 추가하여 물리 바디를 생성합니다.
-    ground.add(groundPlatform);
-
     // 플레이어와 땅 사이의 충돌 처리
   }
 
