@@ -116,7 +116,7 @@ const PronunciationPage: React.FC = () => {
     }
 
     try {
-      const response = await instance.post("/api/speech/tts", data, {
+      const response = await instance.post("api/speech/tts", data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
@@ -137,7 +137,16 @@ const PronunciationPage: React.FC = () => {
       const audio = new Audio(newAudioUrl); // 새로운 Audio 객체 생성
       audio.play(); // 오디오 재생
     } catch (error) {
-      console.error("Error loading or playing audio", error);
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+
+        if (axios.isAxiosError(error)) {
+          console.error("Error data:", error.response?.data);
+          console.error("Error status:", error.response?.status);
+        }
+      } else {
+        console.error("An unexpected error occurred");
+      }
     }
   };
 
@@ -291,17 +300,15 @@ const PronunciationPage: React.FC = () => {
         const data = response.data.speechResult;
         setScore({
           AccuracyScore: Math.round(
-            data.pronunciationAssessmentResult.NBest[0].AccuracyScore
+            data.pronunciationAssessmentResult.AccuracyScore
           ),
           CompletenessScore: Math.round(
-            data.pronunciationAssessmentResult.NBest[0].CompletenessScore
+            data.pronunciationAssessmentResult.CompletenessScore
           ),
           FluencyScore: Math.round(
-            data.pronunciationAssessmentResult.NBest[0].FluencyScore
+            data.pronunciationAssessmentResult.FluencyScore
           ),
-          PronScore: Math.round(
-            data.pronunciationAssessmentResult.NBest[0].PronScore
-          ),
+          PronScore: Math.round(data.pronunciationAssessmentResult.PronScore),
           PitchScore: Math.round(data.pitchComparisonResult),
         });
         console.log(score);

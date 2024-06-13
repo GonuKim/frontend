@@ -1,6 +1,5 @@
-import { defineConfig } from 'vite'
-
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,8 +9,16 @@ export default defineConfig({
     port: 3000, // This is the port which we will use in docker
     // Thanks @sergiomoura for the window fix
     // add the next lines if you're using windows and hot reload doesn't work
-     watch: {
-       usePolling: true
-     }
-  }
-})
+    watch: {
+      usePolling: true,
+    },
+    proxy: {
+      "/api": {
+        target:
+          "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
+});
