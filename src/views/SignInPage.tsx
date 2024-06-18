@@ -8,6 +8,7 @@ import socialGoogle from "../img/socialgoogle.png";
 import socialKakao from "../img/socialkakao.png";
 import socialNaver from "../img/socialnaver.png";
 import SocialCallback from "./CallBack";
+import instance from "../api/axios";
 
 const SignIn = () => {
   const [loginUrl, setLoginUrl] = useState();
@@ -15,8 +16,7 @@ const SignIn = () => {
 
   const customAxios = axios.create({
     baseURL:
-      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com:80",
-    withXSRFToken: true,
+      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com",
     withCredentials: true,
   });
 
@@ -112,9 +112,15 @@ const SignIn = () => {
         alert("아이디 또는 비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
-      console.error("로그인 중 오류 발생:", error);
       if (error instanceof Error) {
-        alert("Login error");
+        console.error("Error message:", error.message);
+
+        if (axios.isAxiosError(error)) {
+          console.error("Error data:", error.response?.data);
+          console.error("Error status:", error.response?.status);
+        }
+      } else {
+        console.error("An unexpected error occurred");
       }
     }
   };

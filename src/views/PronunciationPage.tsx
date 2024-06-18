@@ -3,16 +3,20 @@ import axios from "axios";
 import styles from "../css/PronunciationPage.module.css";
 import instance from "../api/axios";
 import { CircularProgressBar } from "@tomickigrzegorz/react-circular-progress-bar";
+/////////////////////////// ICONS////////////////////////////////////////////
 import { IoCloudUploadOutline } from "react-icons/io5";
 import LoadingBar from "../components/LoadingBar";
 import { RiSpeakFill } from "react-icons/ri";
 import { FaSquare } from "react-icons/fa";
+import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { IoIosMic } from "react-icons/io";
+////////////////////////////ICONS///////////////////////////////////////////
 import { motion } from "framer-motion";
 import * as Pitchy from "pitchy";
 import ReactApexChart from "react-apexcharts";
 import RecordRTC, { StereoAudioRecorder } from "recordrtc";
+import Tooltip from "../components/ToolTip";
 
 interface Score {
   AccuracyScore: number;
@@ -404,6 +408,15 @@ const PronunciationPage: React.FC = () => {
       })),
     },
   ];
+  //       "AccuracyScore: 정확도 점수는 사용자가 발음한 단어가 얼마나 정확한지를 평가합니다. <br>CompletenessScore: 완성도 점수는 사용자가 참조 텍스트의 모든 단어를 발음했는지를 평가합니다. FluencyScore: 유창성 점수는 사용자의 발음이 얼마나 자연스럽고 유창한지를 측정합니다. PronScore: 발음 점수는 사용자의 발음이 표준 발음에 얼마나 가까운지를 평가합니다."
+
+  // Tooltip 내용 텍스트
+  const tooltipContent = () => {
+    const content =
+      "발음 점수: 발음 점수는 사용자의 발음이 표준 발음에 얼마나 가까운지를 평가합니다.\n정확도 점수: 정확도 점수는 사용자가 발음한 단어가 얼마나 정확한지를 평가합니다.\n완성도 점수: 완성도 점수는 사용자가 참조 텍스트의 모든 단어를 발음했는지를 평가합니다.\n유창성 점수: 유창성 점수는 사용자의 발음이 얼마나 자연스럽고 유창한지를 측정합니다.\n피치 점수: 피치점수는 사용자의 음성높낮이가 얼마나 일치하는지를 측정합니다.";
+
+    return content;
+  };
 
   return (
     <div className={styles.main_container}>
@@ -516,13 +529,22 @@ const PronunciationPage: React.FC = () => {
 
         <div className={styles.result_wrap}>
           <div className={styles.result_text}>
-            <RiSpeakFill className={styles.speak_icon} />
-            <p>RESULT</p>
+            <div className={styles.text_content}>
+              <RiSpeakFill className={styles.speak_icon} />
+              <p>RESULT</p>
+            </div>
+
+            <div className={styles.tool_tip_container}>
+              <Tooltip text={tooltipContent()}>
+                <FaRegQuestionCircle className={styles.tool_tip} />
+              </Tooltip>
+            </div>
           </div>
 
           <div className={styles.progress_bar_wrap}>
             <div className={styles.progress_bar}>
               <div className={styles.type_of_progress}>발음 점수</div>
+
               <CircularProgressBar
                 colorCircle="#DDF5FE"
                 linearGradient={getGradientColor(score?.PronScore)}

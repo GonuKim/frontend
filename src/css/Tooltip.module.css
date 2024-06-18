@@ -1,0 +1,32 @@
+.tooltip_container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  width: 100%;
+}
+
+.tooltip {
+  display: flex;
+  visibility: hidden;
+  background-color: #006fff;
+  color: #fff;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 10%;
+  margin-left: -45vw;
+  min-width: 45vw;
+  transition: opacity 0.3s;
+  font-size: 1.7rem;
+  line-height: 2;
+  font-family: "Pretendard-Bold", sans-serif;
+  font-weight: bold;
+  text-align: left;
+  padding: 0.5vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip_container:hover .tooltip {
+  visibility: visible;
+  opacity: 0.9;
+}

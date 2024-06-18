@@ -3,41 +3,44 @@ import axios from "axios";
 // Axios 인스턴스를 설정하는 함수
 const setConfig = () => {
   const accessToken = sessionStorage.getItem("accessToken");
+  // const xsrfToken = localStorage.getItem("XSRF-TOKEN");
+
   return {
     baseURL:
       "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com",
-    withCredentials: true,
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      // "X-XSRF-TOKEN": xsrfToken,
     },
+    withCredentials: true,
   };
 };
 
+// CSRF 토큰을 받아오는 함수
+// async function getCsrfToken() {
+//   try {
+//     const response = await axios.get(
+//       "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com/sanctum/csrf-cookie",
+//       {
+//         withCredentials: true, // headers가 아닌 설정 부분에 위치
+//       }
+//     );
+//     console.log("CSRF token set", response);
+
+//     // 응답 데이터에서 직접 CSRF 토큰을 추출하여 로컬 스토리지에 저장합니다.
+//     const xsrfToken = document.cookie
+//       .split("; ")
+//       .find((row) => row.startsWith("XSRF-TOKEN="))
+//       ?.split("=")[1];
+
+//     localStorage.setItem("XSRF-TOKEN", xsrfToken);
+//   } catch (error) {
+//     console.error("Error fetching CSRF token:", error);
+//   }
+// }
+
 const instance = axios.create(setConfig());
 const refreshToken = sessionStorage.getItem("refreshToken");
-
-// CSRF 토큰을 받아오는 함수
-async function getCsrfToken() {
-  try {
-    const response = await axios.get(
-      "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com/sanctum/csrf-cookie",
-      {
-        withCredentials: true, // headers가 아닌 설정 부분에 위치
-      }
-    );
-    console.log("CSRF token set", response);
-
-    // 응답 데이터에서 직접 CSRF 토큰을 추출하여 로컬 스토리지에 저장합니다.
-    const xsrfToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("XSRF-TOKEN="))
-      ?.split("=")[1];
-
-    localStorage.setItem("XSRF-TOKEN", xsrfToken);
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-}
 
 // refreshToken을 사용하여 새로운 액세스 토큰을 요청하는 함수
 async function refreshAccessToken() {
@@ -97,6 +100,6 @@ instance.interceptors.response.use(
 );
 
 // 애플리케이션 초기 로드 시 CSRF 토큰을 받아옵니다.
-getCsrfToken();
+// getCsrfToken();
 
 export default instance;
