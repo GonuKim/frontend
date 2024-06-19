@@ -18,6 +18,7 @@ const SignIn = () => {
     baseURL:
       "http://tamago-laravel-rb-474417567.ap-northeast-2.elb.amazonaws.com",
     withCredentials: true,
+    // withXSRFToken: true,
   });
 
   const [formErrors, setFormErrors] = useState({

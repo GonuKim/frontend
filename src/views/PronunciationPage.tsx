@@ -17,6 +17,7 @@ import * as Pitchy from "pitchy";
 import ReactApexChart from "react-apexcharts";
 import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import Tooltip from "../components/ToolTip";
+import SituationalExample from "../components/SituationalExample";
 
 interface Score {
   AccuracyScore: number;
@@ -304,15 +305,17 @@ const PronunciationPage: React.FC = () => {
         const data = response.data.speechResult;
         setScore({
           AccuracyScore: Math.round(
-            data.pronunciationAssessmentResult.AccuracyScore
+            data.pronunciationAssessmentResult.AccuracyScore - 10
           ),
           CompletenessScore: Math.round(
-            data.pronunciationAssessmentResult.CompletenessScore
+            data.pronunciationAssessmentResult.CompletenessScore - 10
           ),
           FluencyScore: Math.round(
-            data.pronunciationAssessmentResult.FluencyScore
+            data.pronunciationAssessmentResult.FluencyScore - 10
           ),
-          PronScore: Math.round(data.pronunciationAssessmentResult.PronScore),
+          PronScore: Math.round(
+            data.pronunciationAssessmentResult.PronScore - 10
+          ),
           PitchScore: Math.round(data.pitchComparisonResult),
         });
         console.log(score);
@@ -658,6 +661,7 @@ const PronunciationPage: React.FC = () => {
             </div>
           </div>
         </div>
+        <SituationalExample></SituationalExample>
       </div>
     </div>
   );
