@@ -9,8 +9,8 @@ const config: Phaser.Types.Core.GameConfig = {
 
   scale: {
     // mode: Phaser.Scale.RESIZE, // 스케일 모드 설정
-    width: "60%",
-    height: "90%",
+    width: 1024,
+    height: 600,
     // autoCenter: Phaser.Scale.CENTER_BOTH, // 화면 가운데 정렬
   },
 
